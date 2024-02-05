@@ -1,7 +1,7 @@
 name: fastcampus board
 
 env:
-    AWS_ACTION: ap-northeast-2
+    AWS_REGION: ap-northeast-2
 
 on:
     push:
