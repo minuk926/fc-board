@@ -1,11 +1,11 @@
 spring:
     datasource:
-        #url: jdbc:mariadb://localhost:3306/board?useSSL=false&serverTimezone=Asia/Seoul
-        #username: root
-        #password: 1234
-        url: jdbc:mariadb://awseb-e-rhpxkprexj-stack-awsebrdsdatabase-vd3kxlrkixze.czi0we86e558.ap-northeast-2.rds.amazonaws.com/board?useSSL=false&serverTimezone=Asia/Seoul
-        username: fastcam
-        password: hj719310
+        url: jdbc:mariadb://localhost:3306/board?useSSL=false&serverTimezone=Asia/Seoul
+        username: root
+        password: 1234
+        #url: jdbc:mariadb://awseb-e-rhpxkprexj-stack-awsebrdsdatabase-vd3kxlrkixze.czi0we86e558.ap-northeast-2.rds.amazonaws.com:3306/board?useSSL=false&serverTimezone=Asia/Seoul
+        #username: fastcam
+        #password: hj719310
         driver-class-name: org.mariadb.jdbc.Driver
     jpa:
         hibernate:
