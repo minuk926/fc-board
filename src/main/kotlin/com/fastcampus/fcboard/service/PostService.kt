@@ -1,8 +1,8 @@
-package com.fastcampus.board.service
+package com.fastcampus.fcboard.service
 
-import com.fastcampus.board.model.PostResponse
-import com.fastcampus.board.repository.PostRepository
-import com.fastcampus.domain.Board
+import com.fastcampus.fcboard.domain.Board
+import com.fastcampus.fcboard.model.PostResponse
+import com.fastcampus.fcboard.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service

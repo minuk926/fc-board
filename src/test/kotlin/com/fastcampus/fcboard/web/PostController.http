@@ -1,0 +1,26 @@
+### 게시글 생성
+POST localhost:8080/posts
+Content-Type: application/json
+
+{
+    "title": "게시글",
+    "content": "게시글 콘텐트",
+    "createdBy": "me"
+}
+
+
+### 게시글 변경
+PUT localhost:8080/posts/1
+Content-Type: application/json
+
+{
+    "title": "",
+    "content": "",
+    "createdBy": ""
+}
+
+### 게시글 삭제
+DELETE localhost:8080/posts/1?createdBy="kkk"
+
+### 게시글 상세
+GET localhost:8080/posts/1

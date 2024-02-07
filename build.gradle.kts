@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    //id("org.springframework.boot") version "2.7.14"
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.jlleitschuh.gradle.ktlint") version "11.4.0"
@@ -36,7 +37,20 @@ dependencies {
 
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
-    testImplementation("com.h2database:h2")
+    //p6spy ----------------------------------------------------------------
+    implementation("p6spy:p6spy:3.9.1")
+    //p6spy : sprin boot 2.X
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1")
+    //p6spy : sprin boot 3.X
+    //implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1")
+    //-----------------------------------------------------------------------
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+
+    // zxing qrcode
+    implementation("com.google.zxing:javase:3.5.3")
+    implementation("com.google.zxing:core:3.5.3")
+
+    runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
     testImplementation("io.kotest:kotest-assertions-core:5.6.2")

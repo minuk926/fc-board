@@ -1,4 +1,4 @@
-package com.fastcampus.domain
+package com.fastcampus.fcboard.domain
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

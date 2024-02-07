@@ -1,4 +1,4 @@
-package com.fastcampus.board.model
+package com.fastcampus.fcboard.model
 
 data class PostRequest(
     val page: Int? = 1,

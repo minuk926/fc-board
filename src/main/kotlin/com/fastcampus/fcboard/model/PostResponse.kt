@@ -1,6 +1,6 @@
-package com.fastcampus.board.model
+package com.fastcampus.fcboard.model
 
-import com.fastcampus.domain.Board
+import com.fastcampus.fcboard.domain.Board
 import java.time.LocalDateTime
 
 data class PostResponse(
