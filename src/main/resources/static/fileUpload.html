@@ -22,6 +22,13 @@
     </div>
 </section>
 <hr>
+
+<script defer src="jsQR.js"></script>
+<script defer src="scan.js"></script>
+<script defer
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
 <script>
     const sec9 = document.querySelector('#ex9');
     const btnUpload = sec9.querySelector('.btn-upload');
@@ -221,6 +228,18 @@
             console.error(e)
         }
     }
+
+    $(document).scannerDetection({
+        timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+        startChar: [120], // Prefix character for the cabled scanner (OPL6845R)
+        endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+        avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
+        onComplete: function (barcode, qty) {
+
+            alert(barcode); // 바코드 출력
+
+        }
+    });
 </script>
 </body>
 </html>

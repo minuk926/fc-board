@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="ZXing for JS">
+
+    <title>ZXing sample</title>
+
+    <link rel="stylesheet" rel="preload" as="style" onload="this.rel='stylesheet';this.onload=null"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" rel="preload" as="style" onload="this.rel='stylesheet';this.onload=null"
+          href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
+    <link rel="stylesheet" rel="preload" as="style" onload="this.rel='stylesheet';this.onload=null"
+          href="https://unpkg.com/milligram@1.3.0/dist/milligram.min.css">
+</head>
+<body>
+<main class="wrapper" style="padding-top:2em">
+
+    <section class="container" id="demo-content">
+        <div>
+            <a class="button" id="startButton">Start</a>
+            <a class="button" id="resetButton">Reset</a>
+        </div>
+
+        <div>
+            <video id="video" width="640" height="480" style="border: 1px solid gray"></video>
+            <img id="img" src="../../images/qrcode-3.png" style="border: 1px solid gray"></img>
+        </div>
+
+        <div id="sourceSelectPanel" style="display:none">
+            <label for="sourceSelect">Change video source:</label>
+            <select id="sourceSelect" style="max-width:400px">
+            </select>
+        </div>
+
+        <label>Result:</label>
+        <pre><code id="result"></code></pre>
+    </section>
+
+</main>
+
+
+<!-- 버튼을 클릭하여 QR 코드 스캔 실행 -->
+<button onclick="scanQRCode()">QR 코드 스캔</button>
+
+<!--<script defer type="text/javascript" src="https://unpkg.com/@zxing/browser@latest"></script>-->
+<!--<script defer type="text/javascript" src="../../js/zxing_browser.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@latest"></script>
+
+<!--<script type="module">-->
+<!--    import { BrowserQRCodeReader } from '@zxing/browser';-->
+
+<!--    const codeReader = new BrowserQRCodeReader();-->
+<!--</script>-->
+
+
+<script>
+    // 브라우저에서 카메라 액세스 권한 요청
+    async function requestCameraAccess() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({video: true});
+            const videoElement = document.getElementById('video');
+            videoElement.srcObject = stream;
+        } catch (error) {
+            console.error('카메라 액세스를 허용하지 않았습니다.', error);
+        }
+    }
+
+    // QR 코드 스캔
+    async function scanQRCode() {
+        const codeReader = new ZXing.BrowserMultiFormatReader();
+        const videoElement = document.getElementById('video');
+
+        try {
+            const result = await codeReader.decodeFromVideoDevice(undefined, videoElement);
+            console.log('스캔 결과:', result.text);
+        } catch (error) {
+            console.error('QR 코드 스캔 중 오류 발생:', error);
+        }
+    }
+
+    // 페이지 로드 시 카메라 액세스 요청
+    window.addEventListener('DOMContentLoaded', () => {
+        requestCameraAccess();
+    });
+</script>
+
+
+<script>
+
+    window.addEventListener('load', function () {
+        let selectedDeviceId;
+        //var hints = new Map();
+        //hints.set(ZXing.DecodeHintType.ASSUME_GS1, true)
+        //hints.set(ZXing.DecodeHintType.TRY_HARDER, true)
+        const codeReader = new ZXing.BrowserMultiFormatReader(hints)
+        //const codeReader = new ZXing.BrowserQRCodeReader()
+        console.log('ZXing code reader initialized')
+        codeReader.getVideoInputDevices()
+        .then((videoInputDevices) => {
+            if (videoInputDevices.length > 0) {
+                const sourceSelect = document.getElementById('sourceSelect')
+
+                selectedDeviceId = videoInputDevices[0].deviceId
+                if (videoInputDevices.length >= 1) {
+                    videoInputDevices.forEach((element) => {
+                        const sourceOption = document.createElement('option')
+                        sourceOption.text = element.label
+                        sourceOption.value = element.deviceId
+                        sourceSelect.appendChild(sourceOption)
+                    })
+
+                    sourceSelect.onchange = () => {
+                        selectedDeviceId = sourceSelect.value;
+                    };
+
+                    const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+                    sourceSelectPanel.style.display = 'block'
+                }
+            }
+
+            document.getElementById('startButton').addEventListener('click', () => {
+                if (selectedDeviceId) {
+                    codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
+                        if (result) {
+                            console.log(result.getText())
+                            document.getElementById('result').textContent = result.text
+                        }
+                        if (err && !(err instanceof ZXing.NotFoundException)) {
+                            console.error(err)
+                            document.getElementById('result').textContent = err
+                        }
+                    })
+                    console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
+                } else {
+                    const img = document.getElementById('img')
+                    codeReader.decodeFromImage(img).then((result) => {
+                        console.log(result)
+                        document.getElementById('result').textContent = result.text
+                    }).catch((err) => {
+                        console.error(err)
+                        document.getElementById('result').textContent = err
+                    })
+                    console.log(`Started decode for image from ${img.src}`)
+                }
+
+            })
+
+            document.getElementById('resetButton').addEventListener('click', () => {
+                codeReader.reset()
+                document.getElementById('result').textContent = '';
+                console.log('Reset.')
+            })
+
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+    })
+
+</script>
+</body>
+</html>
