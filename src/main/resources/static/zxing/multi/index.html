@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="ZXing for JS">
 
-    <title>ZXing TypeScript | Decoding from camera stream</title>
+    <title>QR code reading</title>
 
     <link rel="stylesheet" rel="preload" as="style" onload="this.rel='stylesheet';this.onload=null"
           href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
@@ -42,10 +42,6 @@
 
         <div id="divImage" style="display: none;">
             <div>
-                <a class="button" id="decodeButton">Decode</a>
-            </div>
-
-            <div>
                 <!--                <img id="img" src="../../images/qr_code.png" style="width:300px; height: 200px; border: 1px solid gray"></img>-->
                 <div id="img" style="width:300px; height: 200px; border: 1px solid gray"></div>
             </div>
@@ -57,44 +53,49 @@
 
     <footer class="footer">
         <section class="container">
-            <p>ttt</p>
+            <p></p>
         </section>
     </footer>
 
 </main>
 
-<script type="text/javascript" src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+<!--<script type="text/javascript" src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>-->
+<script type="text/javascript" src="../../js/zxing-library-0.20.0.min.js"></script>
 <script type="text/javascript">
     window.addEventListener('load', function () {
         let selectedDeviceId;
+        let isScan = false;
         const codeReader = new ZXing.BrowserMultiFormatReader()
         console.log('ZXing code reader initialized')
         codeReader.listVideoInputDevices()
         .then((videoInputDevices) => {
-            //document.getElementById("divImage").style.display = 'none'
-            //document.getElementById("divScan").style.display = 'block'
-            // temp code -----------------------------
-            document.getElementById("divScan").style.display = 'none'
-            videoInputDevices = []
-            //----------------------------------------
             if (videoInputDevices.length > 0) {
-                const sourceSelect = document.getElementById('sourceSelect')
-                selectedDeviceId = videoInputDevices[0].deviceId
+                isScan = true
+                document.getElementById("divImage").style.display = 'none'
+                document.getElementById("divScan").style.display = 'block'
+                // temp code -----------------------------
+                document.getElementById("divScan").style.display = 'none'
+                isScan = false
 
-                videoInputDevices.forEach((element) => {
-                    const sourceOption = document.createElement('option')
-                    sourceOption.text = element.label
-                    sourceOption.value = element.deviceId
-                    sourceSelect.appendChild(sourceOption)
-                })
-
-                sourceSelect.onchange = () => {
-                    selectedDeviceId = sourceSelect.value;
-                };
-
-                const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-                sourceSelectPanel.style.display = 'block'
-                //}
+                //----------------------------------------
+                // chrome browser 인 경우에만
+                //----------------------------------------
+                // const sourceSelect = document.getElementById('sourceSelect')
+                // selectedDeviceId = videoInputDevices[0].deviceId
+                //
+                // videoInputDevices.forEach((element) => {
+                //     const sourceOption = document.createElement('option')
+                //     sourceOption.text = element.label
+                //     sourceOption.value = element.deviceId
+                //     sourceSelect.appendChild(sourceOption)
+                // })
+                //
+                // sourceSelect.onchange = () => {
+                //     selectedDeviceId = sourceSelect.value;
+                // };
+                // const sourceSelectPanel = document.getElementById('sourceSelectPanel')
+                // sourceSelectPanel.style.display = 'block'
+                //--------------------------------------------
 
                 document.getElementById('startButton').addEventListener('click', () => {
                     codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
@@ -111,7 +112,7 @@
                 })
             }
 
-            if (selectedDeviceId == undefined) {
+            if (!isScan) {
                 document.getElementById("divScan").style.display = 'none'
                 document.getElementById("divImage").style.display = 'block'
 
@@ -152,12 +153,12 @@
                     this.style.backgroundColor = 'white';
 
                     console.dir(e.dataTransfer);
-                    //
-                    // //유효성 Check
-                    // if (!isValid(e.dataTransfer)) {
-                    //     return;
-                    // }
-                    //
+
+                    //유효성 Check
+                    if (!isValid(e.dataTransfer)) {
+                        return;
+                    }
+
                     const data = e.dataTransfer.files;
                     console.dir(data);
                     //
@@ -165,7 +166,8 @@
                     for (let i = 0; i < data.length; i++) {
                         formData.append('uploadFiles', data[i]);
                     }
-                    //
+
+                    document.getElementById('result').textContent = ''
                     requestSubmit({
                         url: '/qr/file/upload',
                         method: 'POST',
@@ -214,6 +216,50 @@
         })
 
     })
+
+    function isValid(data) {
+
+        //파일인지 유효성 검사
+        if (data.types.indexOf('Files') < 0) {
+            return false;
+        }
+
+        const files = data.files
+        //파일의 개수는 1개씩만 가능하도록 유효성 검사
+        if (files.length > 1) {
+            alert('파일은 하나씩 전송이 가능합니다.');
+            return false;
+        }
+
+        //이미지인지 유효성 검사
+        let isStop = false;
+        let fileInfos = [];
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].type.indexOf('image') < 0) {
+                isStop = true;
+                alert('이미지 파일만 업로드 가능합니다.');
+                break;
+            }
+            //파일의 사이즈는 1MB 미만
+            if (files[i].size >= 1024 * 1024 * 2) {
+                isStop = true;
+                alert('1MB 이상인 파일은 업로드할 수 없습니다.');
+                break;
+            }
+            fileInfos[i] = {
+                fileName: files[i].name,
+                size: files[i].size
+            }
+        }
+
+        if (isStop) {
+            fileInfos = null;
+            return isStop;
+        }
+        alert(JSON.stringify(fileInfos));
+
+        return true;
+    }
 
     /**
      * <pre>
