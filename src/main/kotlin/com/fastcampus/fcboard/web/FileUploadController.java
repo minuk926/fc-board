@@ -7,14 +7,15 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller
+@RestController
 public class FileUploadController {
 
     public static final Path path = Paths.get(System.getProperty("user.home"), ".upload");
 
-    @PostMapping("/qr/file/upload2")
+    @PostMapping("/qr/file/upload")
     public String upload(@RequestParam("uploadFiles") List<MultipartFile> multipartFile) {
         //log.info("upload");
        // File targetFile = new File(path.resolve(multipartFile.getOriginalFilename()).toString());

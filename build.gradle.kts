@@ -1,13 +1,12 @@
-// import com.github.gradle.node.npm.task.NpmTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     // id("org.springframework.boot") version "2.7.14"
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
-    // id("org.jlleitschuh.gradle.ktlint") version "11.4.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.4.0"
 
-    // id("com.github.node-gradle.node") version "7.0.1"
+    id("com.github.node-gradle.node") version "7.0.1"
 
     application
     kotlin("jvm") version "1.9.22"
@@ -85,41 +84,3 @@ tasks.withType<Test> {
 tasks.named<Jar>("jar") {
     enabled = false
 }
-
-// -------------------------------------------------------------
-// node settings
-// -------------------------------------------------------------
-// node {
-//    description = "node environment setting"
-//    download = true
-//    version = "20.11.0"
-//    npmVersion = "10.4.0"
-//    // Set the work directory for unpacking node
-//    workDir = file("${project.buildDir}/nodejs")
-//    // Set the work directory for NPM
-//    npmWorkDir = file("${project.buildDir}/npm")
-// }
-//
-// tasks.register<NpmTask>("appNpmInstall") {
-//    description = "Installs all dependencies from package.json"
-//    workingDir = file("${project.projectDir}/src/main/webapp")
-//    args = listOf("install")
-// }
-//
-// tasks.register<NpmTask>("appNpmBuild") {
-//    dependsOn("appNpmInstall")
-//    description = "Builds project"
-//    workingDir = file("${project.projectDir}/src/main/webapp")
-//    args = listOf("test")
-//    // args = listOf("clean","build")
-// }
-//
-// tasks.register<Copy>("copyWebApp") {
-//    dependsOn("appNpmBuild")
-//    description = "Copies built project to where it will be served"
-//    from("src/main/webapp/build")
-//    into("build/resources/main/static/.")
-// }
-// -------------------------------------------------------------
-// node settings
-// -------------------------------------------------------------
