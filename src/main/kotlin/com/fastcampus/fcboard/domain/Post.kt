@@ -2,18 +2,23 @@
 
 package com.fastcampus.fcboard.domain
 
+import com.fastcampus.fcboard.dto.PostDetailResponse
 import com.fastcampus.fcboard.dto.PostUpdatedRequestDto
 import com.fastcampus.fcboard.exception.PostNotUpdatedException
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Lob
 
 @Entity
 class Post(
     title: String,
     content: String,
-    createdBy: String,
+    createdBy: String
 ) : BaseEntity(
-        createdBy,
-    ) {
+    createdBy,
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
@@ -33,5 +38,11 @@ class Post(
     }
 }
 
-// fun Post.toDto() =
-//    title = title
+fun Post.toDto(): PostDetailResponse =
+    PostDetailResponse(
+        id = id,
+        title = title,
+        content = content,
+        createdBy = createdBy,
+        createdAt = createdAt.toString(),
+    )

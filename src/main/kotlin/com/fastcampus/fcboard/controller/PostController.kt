@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 package com.fastcampus.fcboard.controller
 
 import com.fastcampus.fcboard.dto.*
@@ -16,11 +18,11 @@ import java.time.LocalDateTime
 
 @RestController
 class PostController(
-    private val postService: PostService,
+    private val postService: PostService
 ) {
     @PostMapping("/posts")
     fun postCreate(
-        @RequestBody postCreateRequest: PostCreateRequest,
+        @RequestBody postCreateRequest: PostCreateRequest
     ): Long {
         return postService.createPost(postCreateRequest.toDto())
     }
@@ -28,7 +30,7 @@ class PostController(
     @PutMapping("/posts/{id}")
     fun putPost(
         @PathVariable id: Long,
-        @RequestBody postUpdateRequest: PostUpdateRequest,
+        @RequestBody postUpdateRequest: PostUpdateRequest
     ): Long {
         return postService.updatePost(id, postUpdateRequest.toDto())
     }
@@ -36,14 +38,14 @@ class PostController(
     @DeleteMapping("/posts/{id}")
     fun deletePost(
         @PathVariable id: Long,
-        @RequestParam deletedBy: String,
+        @RequestParam deletedBy: String
     ): Long {
         return postService.deletePost(id, deletedBy)
     }
 
     @GetMapping("/posts/{id}")
     fun getPost(
-        @PathVariable id: String,
+        @PathVariable id: String
     ): PostDetailResponse {
         return PostDetailResponse(1L, "title", "content", "user", LocalDateTime.now().toString())
     }
@@ -51,7 +53,7 @@ class PostController(
     @GetMapping("/posts")
     fun getPosts(
         pageable: Pageable,
-        postGetRequst: PostSearchRequst,
+        postGetRequst: PostSearchRequst
     ): Page<PostSumaryResponse> {
         return Page.empty()
     }

@@ -5,9 +5,9 @@ import com.fastcampus.fcboard.domain.Post
 data class PostUpdatedRequestDto(
     var title: String,
     var content: String,
-    val updatedBy: String,
+    val updatedBy: String
 ) {
-    fun update(post: Post)  {
+    fun update(post: Post) {
         title = post.title
         content = post.content
     }

@@ -18,8 +18,9 @@ import org.springframework.data.repository.findByIdOrNull
 @SpringBootTest
 class PostServiceTest(
     private val postService: PostService,
-    private val postRepository: PostRepository,
-) : BehaviorSpec({
+    private val postRepository: PostRepository
+) : BehaviorSpec(
+    {
         given("게시글 생성시") {
             When("게시글 입력이 정상적으로 들어오면") {
                 val postId =
@@ -108,4 +109,25 @@ class PostServiceTest(
                 }
             }
         }
-    })
+        given("게시글 상세 조회시") {
+            val saved = postRepository.save(Post(title = "title", content = "contents", createdBy = "user"))
+            When("정상 조회시") {
+                val post = postService.getPost(saved.id)
+                then("게시글 내용이 정상적으로 반환 된다") {
+                    post shouldNotBe null
+                    post.id shouldBe saved.id
+                    post.title shouldBe saved.title
+                    post.content shouldBe saved.content
+                    post.createdBy shouldBe saved.createdBy
+                }
+            }
+            When("조회 실패시") {
+                then("게시글을 찾을 수 없다는 예외 발생") {
+                    shouldThrow<PostNotFoundException> {
+                        postService.getPost(9999L)
+                    }
+                }
+            }
+        }
+    },
+)

@@ -19,5 +19,5 @@ data class PostSumaryResponse(
     val title: String,
     // val content: String,
     val createdBy: String,
-    val createdAt: String,
+    val createdAt: String
 )

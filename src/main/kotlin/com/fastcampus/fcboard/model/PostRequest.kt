@@ -5,5 +5,5 @@ data class PostRequest(
     val size: Int? = 0,
     val title: String,
     val content: String,
-    val createdBy: String,
+    val createdBy: String
 )

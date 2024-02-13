@@ -1,6 +1,8 @@
 package com.fastcampus.fcboard.service
 
+import com.fastcampus.fcboard.domain.toDto
 import com.fastcampus.fcboard.dto.PostCreateRequestDto
+import com.fastcampus.fcboard.dto.PostDetailResponse
 import com.fastcampus.fcboard.dto.PostUpdatedRequestDto
 import com.fastcampus.fcboard.dto.toEntity
 import com.fastcampus.fcboard.exception.PostNotDeleteException
@@ -13,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class PostService(
-    val postRepository: PostRepository,
+    val postRepository: PostRepository
 ) {
     // fun findAll(): List<PostResponse> = postRepository.findAll().map { it -> PostResponse.of(it) }.toList()
 
-    // fun findById(id: Long): PostDetailResponse =
-    // postRepository.findByIdOrNull(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+    fun getPost(id: Long): PostDetailResponse =
+        postRepository.findByIdOrNull(id)?.toDto() ?: throw PostNotFoundException()
 
     @Transactional
     fun createPost(postCreateRequestDto: PostCreateRequestDto): Long {
@@ -28,7 +30,7 @@ class PostService(
     @Transactional
     fun updatePost(
         id: Long,
-        postUpdateRequestDto: PostUpdatedRequestDto,
+        postUpdateRequestDto: PostUpdatedRequestDto
     ): Long {
         val post =
             postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
@@ -39,7 +41,7 @@ class PostService(
     @Transactional
     fun deletePost(
         id: Long,
-        deletedBy: String,
+        deletedBy: String
     ): Long {
         val post =
             postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()

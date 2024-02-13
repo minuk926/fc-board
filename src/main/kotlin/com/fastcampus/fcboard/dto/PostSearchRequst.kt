@@ -18,5 +18,5 @@ import org.springframework.web.bind.annotation.RequestParam
  */
 data class PostSearchRequst(
     @RequestParam val title: String,
-    @RequestParam val createdBy: String,
+    @RequestParam val createdBy: String
 )
