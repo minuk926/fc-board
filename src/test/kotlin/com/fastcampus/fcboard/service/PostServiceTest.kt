@@ -2,6 +2,7 @@ package com.fastcampus.fcboard.service
 
 import com.fastcampus.fcboard.domain.Post
 import com.fastcampus.fcboard.dto.PostCreateRequestDto
+import com.fastcampus.fcboard.dto.PostSearchRequstDto
 import com.fastcampus.fcboard.dto.PostUpdatedRequestDto
 import com.fastcampus.fcboard.exception.PostNotDeleteException
 import com.fastcampus.fcboard.exception.PostNotFoundException
@@ -12,7 +13,9 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.longs.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldContain
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 
 @SpringBootTest
@@ -21,6 +24,22 @@ class PostServiceTest(
     private val postRepository: PostRepository
 ) : BehaviorSpec(
     {
+        beforeSpec {
+            postRepository.saveAll(
+                listOf(
+                    Post(title = "title1", content = "contents1", createdBy = "user1"),
+                    Post(title = "title12", content = "contents2", createdBy = "user1"),
+                    Post(title = "title13", content = "contents3", createdBy = "user1"),
+                    Post(title = "title14", content = "contents4", createdBy = "user1"),
+                    Post(title = "title15", content = "contents5", createdBy = "user1"),
+                    Post(title = "title6", content = "contents6", createdBy = "user2"),
+                    Post(title = "title7", content = "contents7", createdBy = "user2"),
+                    Post(title = "title8", content = "contents8", createdBy = "user2"),
+                    Post(title = "title9", content = "contents9", createdBy = "user2"),
+                    Post(title = "title10", content = "contents10", createdBy = "user2"),
+                ),
+            )
+        }
         given("게시글 생성시") {
             When("게시글 입력이 정상적으로 들어오면") {
                 val postId =
@@ -126,6 +145,38 @@ class PostServiceTest(
                     shouldThrow<PostNotFoundException> {
                         postService.getPost(9999L)
                     }
+                }
+            }
+        }
+        given("게시글 목록 조회시") {
+            When("정상 조회시") {
+                val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequstDto())
+                then("게시글 페이지가 반환 된다") {
+                    postPage.number shouldBe 0
+                    postPage.size shouldBe 5
+                    postPage.content.size shouldBe 5
+                    postPage.content[0].title shouldContain "title"
+                    postPage.content[0].createdBy shouldContain "user"
+                }
+            }
+            When("타이틀로 검색") {
+                val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequstDto(title = "title1"))
+                then("타이틀에 해당하는 데이타가 조회 된다") {
+                    postPage.number shouldBe 0
+                    postPage.size shouldBe 5
+                    postPage.content.size shouldBe 5
+                    postPage.content[0].title shouldContain "title1"
+                    postPage.content[0].createdBy shouldContain "user"
+                }
+            }
+            When("게시자로 검색") {
+                val postPage = postService.findPageBy(PageRequest.of(0, 5), PostSearchRequstDto(createdBy = "user1"))
+                then("게시자에 해당하는 데이타가 조회 된다") {
+                    postPage.number shouldBe 0
+                    postPage.size shouldBe 5
+                    postPage.content.size shouldBe 5
+                    postPage.content[0].title shouldContain "title"
+                    postPage.content[0].createdBy shouldContain "user1"
                 }
             }
         }

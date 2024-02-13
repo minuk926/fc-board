@@ -1,7 +1,5 @@
 package com.fastcampus.fcboard.dto
 
-import org.springframework.web.bind.annotation.RequestParam
-
 /**
  * <pre>
  * description :
@@ -16,13 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
  *
  * </pre>
  */
-data class PostSearchRequst(
-    @RequestParam val title: String,
-    @RequestParam val createdBy: String
-) {
-    fun toDto(): PostSearchRequstDto =
-        PostSearchRequstDto(
-            title = title,
-            createdBy = createdBy,
-        )
-}
+data class PostSearchRequstDto(
+    val title: String? = null,
+    val createdBy: String? = null
+)

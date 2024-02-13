@@ -5,11 +5,7 @@ package com.fastcampus.fcboard.domain
 import com.fastcampus.fcboard.dto.PostDetailResponse
 import com.fastcampus.fcboard.dto.PostUpdatedRequestDto
 import com.fastcampus.fcboard.exception.PostNotUpdatedException
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Lob
+import jakarta.persistence.*
 
 @Entity
 class Post(
@@ -46,3 +42,6 @@ fun Post.toDto(): PostDetailResponse =
         createdBy = createdBy,
         createdAt = createdAt.toString(),
     )
+
+//fun Post.toListDto(): PostSumaryResponse =
+

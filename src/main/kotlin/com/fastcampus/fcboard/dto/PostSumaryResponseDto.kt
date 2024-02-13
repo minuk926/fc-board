@@ -18,24 +18,23 @@ import org.springframework.data.domain.PageImpl
  *
  * </pre>
  */
-data class PostSumaryResponse(
+data class PostSumaryResponseDto(
     val id: Long,
     val title: String,
     val createdBy: String,
     val createdAt: String
-) {
+)
 
-}
-
-fun Page<PostSumaryResponse>.toResponse() = PageImpl(
-    content.map { it.toAllResponse() },
+fun Page<Post>.toSumaryResponseDto() = PageImpl(
+    content.map { it.toSumaryResponseDto() },
     pageable,
     totalElements,
 )
 
-private fun Post.toAllResponse(): PostSumaryResponse = PostSumaryResponse(
+fun Post.toSumaryResponseDto() = PostSumaryResponseDto(
     id = id,
     title = title,
     createdBy = createdBy,
     createdAt = createdAt.toString(),
 )
+

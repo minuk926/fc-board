@@ -2,19 +2,12 @@
 
 package com.fastcampus.fcboard.controller
 
+import com.fastcampus.fcboard.domain.Post
 import com.fastcampus.fcboard.dto.*
 import com.fastcampus.fcboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDateTime
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class PostController(
@@ -45,16 +38,16 @@ class PostController(
 
     @GetMapping("/posts/{id}")
     fun getPost(
-        @PathVariable id: String
+        @PathVariable id: Long
     ): PostDetailResponse {
-        return PostDetailResponse(1L, "title", "content", "user", LocalDateTime.now().toString())
+        return postService.getPost(id)
     }
 
     @GetMapping("/posts")
     fun getPosts(
         pageable: Pageable,
-        postGetRequst: PostSearchRequst
-    ): Page<PostSumaryResponse> {
-        return Page.empty()
+        postSearchRequst: PostSearchRequst
+    ): Page<Post> {
+        return postService.findPageBy(pageable, postSearchRequst.toDto()).toResponse()
     }
 }

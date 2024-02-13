@@ -32,6 +32,7 @@ repositories {
 }
 
 dependencies {
+    val p6spyVersion = "1.9.1"
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -45,11 +46,9 @@ dependencies {
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
     // p6spy ----------------------------------------------------------------
-    implementation("p6spy:p6spy:3.9.1")
-    // p6spy : sprin boot 2.X
-    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1")
-    // p6spy : sprin boot 3.X
-    // implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.1")
+    //implementation("p6spy:p6spy:3.9.1")
+    // p6spy spring boot 2.X - 1.8.1, sprin boot 3.X - 1.9.1
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:$p6spyVersion")
     // -----------------------------------------------------------------------
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 

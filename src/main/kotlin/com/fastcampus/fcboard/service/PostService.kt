@@ -1,13 +1,12 @@
 package com.fastcampus.fcboard.service
 
 import com.fastcampus.fcboard.domain.toDto
-import com.fastcampus.fcboard.dto.PostCreateRequestDto
-import com.fastcampus.fcboard.dto.PostDetailResponse
-import com.fastcampus.fcboard.dto.PostUpdatedRequestDto
-import com.fastcampus.fcboard.dto.toEntity
+import com.fastcampus.fcboard.dto.*
 import com.fastcampus.fcboard.exception.PostNotDeleteException
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import com.fastcampus.fcboard.repository.PostRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     val postRepository: PostRepository
 ) {
-    // fun findAll(): List<PostResponse> = postRepository.findAll().map { it -> PostResponse.of(it) }.toList()
+    fun findPageBy(pageRequest: Pageable, postSearchRequstDto: PostSearchRequstDto): Page<PostSumaryResponseDto> {
+        return postRepository.findPageBy(pageRequest, postSearchRequstDto).toSumaryResponseDto()
+    }
 
     fun getPost(id: Long): PostDetailResponse =
         postRepository.findByIdOrNull(id)?.toDto() ?: throw PostNotFoundException()
