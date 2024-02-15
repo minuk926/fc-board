@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
-
 interface PostRepository : JpaRepository<Post, Long>, CustomPostRepository
 
 interface CustomPostRepository {
@@ -31,5 +30,4 @@ class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport
 
         return PageImpl(fetchResults.results, pageable, fetchResults.total)
     }
-
 }

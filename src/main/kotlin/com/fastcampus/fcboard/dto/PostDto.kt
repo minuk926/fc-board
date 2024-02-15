@@ -28,5 +28,3 @@ data class PostDto(
         createdBy = userBy,
     )
 }
-
-

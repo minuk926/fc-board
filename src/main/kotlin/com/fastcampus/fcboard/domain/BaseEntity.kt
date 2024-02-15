@@ -17,7 +17,6 @@ abstract class BaseEntity(
     @Column(updatable = false)
     var createdBy: String
 ) {
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     var createdAt: LocalDateTime = LocalDateTime.now()

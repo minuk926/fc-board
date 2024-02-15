@@ -41,6 +41,5 @@ open class Post(
             updatedBy = super.updatedBy,
             updatedAt = super.updatedAt,
 
-            )
-
+        )
 }
