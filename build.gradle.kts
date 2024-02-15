@@ -46,7 +46,6 @@ dependencies {
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
     // p6spy ----------------------------------------------------------------
-    //implementation("p6spy:p6spy:3.9.1")
     // p6spy spring boot 2.X - 1.8.1, sprin boot 3.X - 1.9.1
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:$p6spyVersion")
     // -----------------------------------------------------------------------

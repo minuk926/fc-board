@@ -1,8 +1,9 @@
 package com.fastcampus.fcboard.service
 
-import com.fastcampus.fcboard.domain.toDto
-import com.fastcampus.fcboard.dto.*
-import com.fastcampus.fcboard.exception.PostNotDeleteException
+import com.fastcampus.fcboard.domain.Post
+import com.fastcampus.fcboard.dto.PostDtlDto
+import com.fastcampus.fcboard.dto.PostDto
+import com.fastcampus.fcboard.dto.PostSchDto
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import com.fastcampus.fcboard.repository.PostRepository
 import org.springframework.data.domain.Page
@@ -14,40 +15,24 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class PostService(
-    val postRepository: PostRepository
+    private val postRepository: PostRepository
 ) {
-    fun findPageBy(pageRequest: Pageable, postSearchRequstDto: PostSearchRequstDto): Page<PostSumaryResponseDto> {
-        return postRepository.findPageBy(pageRequest, postSearchRequstDto).toSumaryResponseDto()
-    }
-
-    fun getPost(id: Long): PostDetailResponse =
-        postRepository.findByIdOrNull(id)?.toDto() ?: throw PostNotFoundException()
+    @Transactional
+    fun createPost(postDto: PostDto): Long =
+        postRepository.save(postDto.toPostEntity()).id
 
     @Transactional
-    fun createPost(postCreateRequestDto: PostCreateRequestDto): Long {
-        return postRepository.save(postCreateRequestDto.toEntity()).id
-    }
-
-    @Transactional
-    fun updatePost(
-        id: Long,
-        postUpdateRequestDto: PostUpdatedRequestDto
-    ): Long {
-        val post =
-            postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
-        post.update(postUpdateRequestDto)
+    fun updatePost(id: Long, postDto: PostDto): Long {
+        val post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
+        post.update(postDto)
         return postRepository.save(post).id
     }
 
-    @Transactional
-    fun deletePost(
-        id: Long,
-        deletedBy: String
-    ): Long {
-        val post =
-            postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
-        if (post.createdBy != deletedBy) throw PostNotDeleteException()
-        postRepository.delete(post)
-        return id
+    fun findPost(id: Long): PostDtlDto {
+        return postRepository.findByIdOrNull(id)?.toDetailDto() ?: throw PostNotFoundException()
+    }
+
+    fun findPosts(pageable: Pageable, postSchDto: PostSchDto): Page<Post> {
+        return postRepository.findPageBy(pageable, postSchDto)
     }
 }

@@ -1,0 +1,25 @@
+### 게시글 생성
+POST localhost:8080/posts
+Content-Type: application/json
+
+{
+    "title": "title",
+    "content": "content",
+    "userBy": "usr"
+}
+
+### 게시글 변경
+PUT localhost:8080/posts/1
+Content-Type: application/json
+
+{
+    "title": "title",
+    "content": "content",
+    "userBy": "usr"
+}
+
+### 게시글 상세 조회
+GET localhost:8080/posts/1
+
+### 게시글 조회
+GET localhost:8080/posts?page=0&size=2&title=&content&createdBy=

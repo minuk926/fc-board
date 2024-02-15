@@ -17,7 +17,4 @@ package com.fastcampus.fcboard.exception
 open class PostException(message: String) : RuntimeException(message)
 
 class PostNotFoundException() : PostException("게시글을 찾을 수 없습니다.")
-
-class PostNotUpdatedException() : PostException("게시글을 변경할 수 없습니다.")
-
-class PostNotDeleteException() : PostException("삭제할 수 없는 게시글 입니다.")
+class PostNotUpdatedException() : PostException("게시글을 변경할 수 없습니다")

@@ -26,12 +26,9 @@ spring:
     livereload:
       enabled: true
 
-#  jpa:
-#    show-sql: false
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        use_sql_comments: true
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 
 logging:
@@ -52,19 +49,22 @@ logging:
 
 decorator:
   datasource:
-    #    datasource-proxy:
-    #      logging: slf4j
-    #      query:
-    #        enable-logging: true
-    #        log-level: debug
-
-    p6spy:
-      enable-logging: true
+    datasource-proxy:
+      logging: slf4j
+      query:
+        enable-logging: true
+        log-level: debug
+      format-sql: true
+      multiline: true
+      count-query: true
+#    p6spy:
+#      enable-logging: true
 #      multiline: true
 #      logging: slf4j
 #      tracing:
 #        include-parameter-values: true
-#      #custom-appender-class: com.p6spy.engine.spy.appender.Slf4JLogger
-#      log-format: com.p6spy.engine.spy.appender.MultiLineFormat
+#      custom-appender-class: com.p6spy.engine.spy.appender.Slf4JLogger
+#      #      log-format: com.p6spy.engine.spy.appender.MultiLineFormat
+#      log-format: com.fastcampus.P6SpyFormatterKt
 
 
