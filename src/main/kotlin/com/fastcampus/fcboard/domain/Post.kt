@@ -6,7 +6,7 @@ import com.fastcampus.fcboard.exception.PostNotUpdatedException
 import jakarta.persistence.*
 
 @Entity
-open class Post(
+class Post(
     title: String,
     content: String,
     createdBy: String
@@ -41,5 +41,5 @@ open class Post(
             updatedBy = super.updatedBy,
             updatedAt = super.updatedAt,
 
-        )
+            )
 }

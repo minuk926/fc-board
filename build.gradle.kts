@@ -55,6 +55,32 @@ dependencies {
     implementation("com.google.zxing:javase:3.5.3")
     implementation("com.google.zxing:core:3.5.3")
 
+    // webjars
+    implementation("org.webjars:bootstrap:5.3.0")
+    implementation("org.webjars:jquery:3.6.0")
+    implementation("org.webjars:popper.js:1.16.1")
+
+    // kotest
+    testImplementation("io.kotest:kotest-assertions-core:5.6.2")
+    testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
+    testImplementation("io.kotest:kotest-extensions-spring:1.1.3")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    testImplementation("org.assertj:assertj-core:3.21.0")
+    testImplementation("org.mockito:mockito-core:3.12.4")
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    testImplementation("org.webjars:bootstrap:5.3.0")
+    testImplementation("org.webjars:jquery:3.6.0")
+    testImplementation("org.webjars:popper.js:1.16.1")
+    testImplementation("org.webjars:bootstrap:5.3.0")
+    testImplementation("org.webjars:jquery:3.6.0")
+    testImplementation("org.webjars:popper.js:1.16.1")
+    testImplementation("org.webjars:bootstrap:5.3.0")
+    testImplementation("org.webjars:jquery:3.6.0")
+    testImplementation("org.webjars:popper.js:1.16.1")
+
+    // h2 database
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
@@ -81,4 +107,8 @@ tasks.withType<Test> {
 // plain jar를 생성하지 않도록 한다
 tasks.named<Jar>("jar") {
     enabled = false
+}
+
+allOpen {
+    annotation("com.fastcampus.config.AllOpen")
 }

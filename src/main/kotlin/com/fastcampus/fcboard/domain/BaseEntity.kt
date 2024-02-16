@@ -1,5 +1,6 @@
 package com.fastcampus.fcboard.domain
 
+import com.fastcampus.config.AllOpen
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass
@@ -12,10 +13,11 @@ import java.time.LocalDateTime
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
+@AllOpen
 abstract class BaseEntity(
     @CreatedBy
     @Column(updatable = false)
-    var createdBy: String
+    open var createdBy: String
 ) {
     @CreatedDate
     @Column(nullable = false, updatable = false)

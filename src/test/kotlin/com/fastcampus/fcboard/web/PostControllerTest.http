@@ -3,8 +3,8 @@ POST localhost:8080/posts
 Content-Type: application/json
 
 {
-    "title": "title",
-    "content": "content",
+    "title": "title11~",
+    "content": "content22~",
     "userBy": "usr"
 }
 
@@ -22,4 +22,4 @@ Content-Type: application/json
 GET localhost:8080/posts/1
 
 ### 게시글 조회
-GET localhost:8080/posts?page=0&size=2&title=&content&createdBy=
+GET localhost:8080/posts?page=0&size=2&sort=title,desc&sort=content,asc&title=&content&createdBy=
