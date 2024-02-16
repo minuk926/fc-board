@@ -1,9 +1,9 @@
 package com.fastcampus.fcboard.web
 
 import com.fastcampus.fcboard.domain.Post
-import com.fastcampus.fcboard.dto.PostDtlDto
 import com.fastcampus.fcboard.dto.PostDto
-import com.fastcampus.fcboard.dto.PostSchDto
+import com.fastcampus.fcboard.dto.PostInfoDto
+import com.fastcampus.fcboard.dto.PostSearchDto
 import com.fastcampus.fcboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*
  * packageName : com.fastcampus.fcboard.web
  * fileName    : PostController
  * author      : limju
- * date        : 2024-02-15
+ * date        : 2024-02-16
  * ======================================================================
  * 변경일         변경자        변경 내용
  * ----------------------------------------------------------------------
- * 2024-02-15    limju       최초 생성
+ * 2024-02-16    limju       최초 생성
  *
  * </pre>
  */
@@ -28,19 +28,23 @@ import org.springframework.web.bind.annotation.*
 class PostController(
     private val postService: PostService
 ) {
-
     @PostMapping("/posts")
-    fun createPost(@RequestBody postDto: PostDto): Long = postService.createPost(postDto)
+    fun createPost(@RequestBody postDto: PostDto) =
+        postService.createPost(postDto)
 
     @PutMapping("/posts/{id}")
-    fun updatePost(@PathVariable id: Long, @RequestBody postCreateDto: PostDto): Long =
-        postService.updatePost(id, postCreateDto)
+    fun updatePost(@PathVariable id: Long, @RequestBody postDto: PostDto): Long =
+        postService.updatePost(id, postDto)
 
     @GetMapping("/posts/{id}")
-    fun findPost(@PathVariable id: Long): PostDtlDto =
-        postService.findPost(id)
+    fun getPost(@PathVariable id: Long): PostInfoDto = postService.getPost(id)
 
     @GetMapping("/posts")
-    fun findPosts(pageable: Pageable, postSchDto: PostSchDto): Page<Post> =
-        postService.findPosts(pageable, postSchDto)
+    fun getPosts(pageable: Pageable, postSearchDto: PostSearchDto): Page<Post> =
+        postService.getPosts(pageable, postSearchDto)
+
+    @DeleteMapping("/posts/{id}")
+    fun deletePost(@PathVariable id: Long, @RequestParam userBy: String): Long =
+        postService.deletePost(id, userBy)
+
 }

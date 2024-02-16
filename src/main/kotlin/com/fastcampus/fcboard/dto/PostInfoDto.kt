@@ -5,18 +5,22 @@ package com.fastcampus.fcboard.dto
  * description :
  *
  * packageName : com.fastcampus.fcboard.dto
- * fileName    : PostSchDto
+ * fileName    : PostInfoDto
  * author      : limju
- * date        : 2024-02-15
+ * date        : 2024-02-16
  * ======================================================================
  * 변경일         변경자        변경 내용
  * ----------------------------------------------------------------------
- * 2024-02-15    limju       최초 생성
+ * 2024-02-16    limju       최초 생성
  *
  * </pre>
  */
-data class PostSchDto(
-    val title: String? = null,
-    val content: String? = null,
-    val createdBy: String? = null
+data class PostInfoDto(
+    val id: Long,
+    val title: String,
+    val content: String,
+    val createdBy: String,
+    val createdAt: String,
+    val updatedBy: String?,
+    val updatedAt: String?
 )

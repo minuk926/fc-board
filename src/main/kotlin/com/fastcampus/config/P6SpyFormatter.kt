@@ -42,9 +42,7 @@ class P6SpyFormatter : MessageFormattingStrategy {
         if (Category.STATEMENT.name.equals(category)) {
             val trimmedSQL: String = sql.trim().lowercase(Locale.ROOT)
             return if (trimmedSQL.startsWith("create") || trimmedSQL.startsWith("alter") ||
-                trimmedSQL.startsWith(
-                    "comment",
-                )
+                trimmedSQL.startsWith("comment")
             ) {
                 FormatStyle.DDL.formatter.format(sql)
             } else {

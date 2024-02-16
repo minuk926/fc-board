@@ -7,13 +7,13 @@ import com.fastcampus.fcboard.domain.Post
  * description :
  *
  * packageName : com.fastcampus.fcboard.dto
- * fileName    : PostCreateDto
+ * fileName    : PostDto
  * author      : limju
- * date        : 2024-02-15
+ * date        : 2024-02-16
  * ======================================================================
  * 변경일         변경자        변경 내용
  * ----------------------------------------------------------------------
- * 2024-02-15    limju       최초 생성
+ * 2024-02-16    limju       최초 생성
  *
  * </pre>
  */
@@ -22,9 +22,7 @@ data class PostDto(
     val content: String,
     val userBy: String
 ) {
-    fun toPostEntity() = Post(
-        title = title,
-        content = content,
-        createdBy = userBy,
-    )
+    fun toEntity(): Post =
+        Post(title = title, content = content, createdBy = userBy)
+
 }

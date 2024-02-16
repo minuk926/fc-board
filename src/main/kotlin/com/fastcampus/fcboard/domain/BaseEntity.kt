@@ -11,16 +11,17 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
+
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 @AllOpen
 abstract class BaseEntity(
     @CreatedBy
     @Column(updatable = false)
-    open var createdBy: String
+    val createdBy: String
 ) {
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(updatable = false)
     var createdAt: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedBy
@@ -33,7 +34,7 @@ abstract class BaseEntity(
     var updatedAt: LocalDateTime? = LocalDateTime.now()
         protected set
 
-    fun updatedBy(updatedBy: String) {
-        this.updatedBy = updatedBy
+    fun updatedBy(userBy: String) {
+        this.updatedBy = userBy
     }
 }
