@@ -1,6 +1,7 @@
 package com.fastcampus.fcboard.web
 
 import com.fastcampus.fcboard.dto.CommentDto
+import com.fastcampus.fcboard.service.CommentService
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -18,28 +19,24 @@ import org.springframework.web.bind.annotation.*
  * </pre>
  */
 @RestController
-class CommentController() {
+class CommentController(
+    private val commentService: CommentService
+) {
     @PostMapping("/posts/{postId}/comments")
     fun createComment(
         @PathVariable postId: Long,
         @RequestBody commentDto: CommentDto
-    ): Long {
-        println(commentDto)
-        return 1L
-    }
+    ): Long = commentService.createComment(postId, commentDto)
 
     @PutMapping("/comments/{commentId}")
     fun updateComment(
         @PathVariable commentId: Long,
         @RequestBody commentDto: CommentDto
-    ): Long {
-        println(commentDto)
-        return 1L
-    }
+    ): Long = commentService.updateComment(commentId, commentDto)
 
     @DeleteMapping("/comments/{commentId}")
     fun deleteComment(
         @PathVariable commentId: Long,
         @RequestParam deletedBy: String
-    ): Long = 1L
+    ): Long = commentService.deleteComment(commentId, deletedBy)
 }

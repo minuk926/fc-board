@@ -33,27 +33,38 @@ class PostService(
     private val postRepository: PostRepository
 ) {
     @Transactional
-    fun createPost(postDto: PostDto): Long =
-        postRepository.save(postDto.toEntity()).id
+    fun createPost(postDto: PostDto): Long = postRepository.save(postDto.toEntity()).id
 
     @Transactional
-    fun updatePost(id: Long, postDto: PostDto): Long {
+    fun updatePost(
+        id: Long,
+        postDto: PostDto
+    ): Long {
         val post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
+
         if (post.createdBy != postDto.userBy) throw PostNotUpdatedException()
         post.update(postDto)
+
         return postRepository.save(post).id
     }
 
     fun getPost(id: Long) = postRepository.findByIdOrNull(id)?.toPostInfoDto() ?: throw PostNotFoundException()
 
-    fun getPosts(pageable: Pageable, postSearchDto: PostSearchDto): Page<Post> =
-        postRepository.findPagePosts(pageable, postSearchDto)
+    fun getPosts(
+        pageable: Pageable,
+        postSearchDto: PostSearchDto
+    ): Page<Post> = postRepository.findPagePosts(pageable, postSearchDto)
 
     @Transactional
-    fun deletePost(id: Long, userBy: String): Long {
+    fun deletePost(
+        id: Long,
+        userBy: String
+    ): Long {
         val post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
+
         if (post.createdBy != userBy) throw PostNotUpdatedException()
         postRepository.delete(post)
+
         return id
     }
 }

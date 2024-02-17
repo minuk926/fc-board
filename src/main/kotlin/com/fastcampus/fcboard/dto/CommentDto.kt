@@ -1,5 +1,8 @@
 package com.fastcampus.fcboard.dto
 
+import com.fastcampus.fcboard.domain.Comment
+import com.fastcampus.fcboard.domain.Post
+
 /**
  * <pre>
  * description :
@@ -17,4 +20,12 @@ package com.fastcampus.fcboard.dto
 data class CommentDto(
     val content: String,
     val userBy: String
-)
+) {
+    fun toEntity(post: Post): Comment {
+        return Comment(
+            content = content,
+            createdBy = userBy,
+            post = post,
+        )
+    }
+}
