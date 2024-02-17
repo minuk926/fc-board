@@ -22,7 +22,5 @@ data class PostDto(
     val content: String,
     val userBy: String
 ) {
-    fun toEntity(): Post =
-        Post(title = title, content = content, createdBy = userBy)
-
+    fun toEntity(): Post = Post(title = title, content = content, createdBy = userBy)
 }

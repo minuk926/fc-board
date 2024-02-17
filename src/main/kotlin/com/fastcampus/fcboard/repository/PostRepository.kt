@@ -40,7 +40,6 @@ class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport
         pageable.sort.forEach { sort ->
             val pathBuilder: PathBuilder<Post> = PathBuilder(post.type, post.metadata)
 
-
             orders.add(
                 OrderSpecifier(
                     if (sort.isAscending) Order.ASC else Order.DESC,
@@ -63,4 +62,3 @@ class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport
         return PageImpl(result.results, pageable, result.total)
     }
 }
-

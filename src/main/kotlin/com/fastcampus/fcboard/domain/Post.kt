@@ -21,6 +21,7 @@ import jakarta.persistence.*
  * </pre>
  */
 @Entity
+@Table
 class Post(
     title: String,
     content: String,
@@ -36,6 +37,9 @@ class Post(
     @Lob
     var content: String = content
         protected set
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
+    var comments: MutableList<Comment> = mutableListOf()
 
     fun update(postDto: PostDto) {
         if (super.createdBy != postDto.userBy) throw PostNotFoundException()
@@ -54,5 +58,4 @@ class Post(
             updatedBy = super.updatedBy,
             updatedAt = super.updatedAt.toString(),
         )
-
 }

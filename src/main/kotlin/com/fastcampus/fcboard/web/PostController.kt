@@ -46,5 +46,4 @@ class PostController(
     @DeleteMapping("/posts/{id}")
     fun deletePost(@PathVariable id: Long, @RequestParam userBy: String): Long =
         postService.deletePost(id, userBy)
-
 }
