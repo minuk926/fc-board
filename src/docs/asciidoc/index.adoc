@@ -1,0 +1,35 @@
+// snippet 경로를 못 읽어들이는 버그로 인해 추가
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+
+// Ascii Doc 서식
+// book|article|manpage|inline
+:doctype: book
+:source-highlighter: highlight.js
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectlinks:
+:sectanchors:
+
+== 게시판 API
+
+=== Curl Request
+include::{snippets}/post/curl-request.adoc[]
+=== Request
+include::{snippets}/post/http-request.adoc[]
+include::{snippets}/post/request-body.adoc[]
+=== Response
+include::{snippets}/post/http-response.adoc[]
+//include::{snippets}/post/response-body.adoc[]
+include::{snippets}/post/response-fields.adoc[]
+
+== 댓글 API
+
+=== Curl Request
+include::{snippets}/post/curl-request.adoc[]
+=== Request
+include::{snippets}/post/http-request.adoc[]
+=== >Response
+include::{snippets}/post/http-response.adoc[]

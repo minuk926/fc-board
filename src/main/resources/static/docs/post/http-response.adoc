@@ -1,0 +1,17 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 207
+
+{
+  "id" : 18,
+  "title" : "title",
+  "content" : "content",
+  "createdBy" : "limju",
+  "createdAt" : "2024-02-19T16:22:21.705149",
+  "updatedBy" : null,
+  "updatedAt" : "null",
+  "comments" : [ ]
+}
+----

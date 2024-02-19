@@ -32,9 +32,19 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     private val postRepository: PostRepository
 ) {
+    /**
+     * 게시글 생성
+     * @param postDto 게시글 정보
+     * @return 생성된 게시글 id
+     */
     @Transactional
     fun createPost(postDto: PostDto): Long = postRepository.save(postDto.toEntity()).id
 
+    /**
+     * 게시글 변경
+     * @param id 게시글 id
+     * @param postDto 수정할 게시글 정보
+     */
     @Transactional
     fun updatePost(
         id: Long,
@@ -48,13 +58,28 @@ class PostService(
         return postRepository.save(post).id
     }
 
+    /**
+     * 게시글 조회
+     * @param id 게시글 id
+     * @return 게시글 정보
+     */
     fun getPost(id: Long) = postRepository.findByIdOrNull(id)?.toPostInfoDto() ?: throw PostNotFoundException()
 
+    /**
+     * 게시글 목록 조회
+     * @param pageable 페이징 정보
+     * @param postSearchDto 검색 조건
+     */
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
     ): Page<Post> = postRepository.findPagePosts(pageable, postSearchDto)
 
+    /**
+     * 게시글 삭제
+     * @param id 게시글 id
+     * @param userBy 삭제 요청한 사용자
+     */
     @Transactional
     fun deletePost(
         id: Long,
