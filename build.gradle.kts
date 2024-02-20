@@ -103,31 +103,50 @@ tasks {
         outputs.dir(snippetsDir)
     }
     asciidoctor {
+        configurations(asciidoctorExt.name)
+
+        inputs.dir(snippetsDir)
+        forkOptions {
+            jvmArgs(
+                "--add-opens",
+                "java.base/sun.nio.ch=ALL-UNNAMED",
+                "--add-opens",
+                "java.base/java.io=ALL-UNNAMED",
+            )
+        }
         // test 가 성공해야만, 아래 Task 실행
         dependsOn(test)
+    }
 
-        // 기존에 존재하는 Docs 삭제(문서 최신화를 위해)
-        doFirst {
-            delete(file("src/main/resources/static/docs"))
-        }
-        // snippet Directory 설정
-        inputs.dir(snippetsDir)
-
-        // Ascii Doc 파일 생성
-        doLast {
-            copy {
-                from("build/docs/asciidoc")
-                into("src/main/resources/static/docs")
-                from(file(snippetsDir))
-                into(file("src/main/resources/static/docs"))
-            }
+    bootJar {
+        dependsOn(asciidoctor)
+        from("build/docs/asciidoc") {
+            into("BOOT-INF/classes/static/docs")
         }
     }
+
     build {
         // Ascii Doc 파일 생성이 성공해야만, Build 진행
-        dependsOn(asciidoctor)
+        dependsOn("copyAsciidocFile")
     }
-    //bootJar {
-    //    dependsOn(asciidoctor)
-    //}
+
+    register<Copy>("copyAsciidocFile") {
+        dependsOn(asciidoctor)
+
+        delete("src/main/resources/static/docs")
+
+        destinationDir = file("src/main/resources/static")
+        from("build/docs/asciidoc") {
+            into("docs")
+        }
+        from(file(snippetsDir)) {
+            into("docs")
+        }
+    }
+
+    // asciidoctorBuild Task 생성 - asciidoctor Task 실행 후, asciidoc 파일을 복사
+    register("asciidoctorBuild") {
+        dependsOn(asciidoctor)
+        dependsOn("copyAsciidocFile")
+    }
 }

@@ -32,9 +32,9 @@ class Comment(
     var content: String = content
         protected set
 
-    @ManyToOne(fetch = FetchType.LAZY)
     // 읽기 전용으로 - 관리는 post에서
     //@JoinColumn(name = "post_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     var post: Post = post
         protected set
 

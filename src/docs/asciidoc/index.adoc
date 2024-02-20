@@ -6,8 +6,9 @@ endif::[]
 // Ascii Doc 서식
 // book|article|manpage|inline
 :doctype: book
-:source-highlighter: highlight.js
+:source-highlighter: highlightjs
 :toc: left
+:toc-title: 목차
 :toclevels: 4
 :sectnums:
 :sectlinks:
