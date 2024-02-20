@@ -29,3 +29,9 @@ data class CommentDto(
         )
     }
 }
+
+fun Comment.toCommentDto(): CommentDto =
+    CommentDto(
+        content = content,
+        userBy = createdBy,
+    )

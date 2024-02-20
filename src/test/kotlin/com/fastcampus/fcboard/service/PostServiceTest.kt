@@ -1,10 +1,12 @@
 package com.fastcampus.fcboard.service
 
 import com.fastcampus.fcboard.domain.Post
+import com.fastcampus.fcboard.dto.CommentDto
 import com.fastcampus.fcboard.dto.PostDto
 import com.fastcampus.fcboard.dto.PostSearchDto
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import com.fastcampus.fcboard.exception.PostNotUpdatedException
+import com.fastcampus.fcboard.repository.CommentRepository
 import com.fastcampus.fcboard.repository.PostRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
@@ -19,7 +21,8 @@ import org.springframework.data.repository.findByIdOrNull
 @SpringBootTest
 class PostServiceTest(
     private val postService: PostService,
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val commentRepository: CommentRepository
 ) : BehaviorSpec(
     {
         beforeSpec {
@@ -143,6 +146,18 @@ class PostServiceTest(
                     shouldThrow<PostNotFoundException> {
                         postService.getPost(9999L)
                     }
+                }
+            }
+            When("댓글 있는 경우") {
+                commentRepository.save(CommentDto("댓글 내용1", "minuk").toEntity(saved))
+                commentRepository.save(CommentDto("댓글 내용2", "minuk").toEntity(saved))
+                commentRepository.save(CommentDto("댓글 내용3", "minuk").toEntity(saved))
+                val post = postService.getPost(saved.id)
+                then("댓글이 함께 조회 된다") {
+                    post.comments.size shouldBe 3
+                    post.comments[0].content shouldBe "댓글 내용1"
+                    post.comments[1].content shouldBe "댓글 내용2"
+                    post.comments[2].content shouldBe "댓글 내용3"
                 }
             }
         }

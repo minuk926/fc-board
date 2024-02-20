@@ -2,6 +2,7 @@ package com.fastcampus.fcboard.domain
 
 import com.fastcampus.fcboard.dto.PostDto
 import com.fastcampus.fcboard.dto.PostInfoDto
+import com.fastcampus.fcboard.dto.toCommentDto
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import jakarta.persistence.*
 
@@ -21,7 +22,6 @@ import jakarta.persistence.*
  * </pre>
  */
 @Entity
-@Table
 class Post(
     title: String,
     content: String,
@@ -40,10 +40,8 @@ class Post(
 
     // 반드시 필요 : 미정의시 join table 생성
     // 1:N 관계에서 1에 해당하는 쪽이 연관관계의 주인
-    //@JoinColumn(name = "post_id")
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, orphanRemoval = true, cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = [CascadeType.ALL])
     var comments: MutableList<Comment> = mutableListOf()
-
     fun update(postDto: PostDto) {
         if (super.createdBy != postDto.userBy) throw PostNotFoundException()
         this.title = postDto.title
@@ -60,5 +58,6 @@ class Post(
             createdAt = super.createdAt.toString(),
             updatedBy = super.updatedBy,
             updatedAt = super.updatedAt.toString(),
+            comments = comments.map { it.toCommentDto() },
         )
 }

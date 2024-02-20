@@ -73,7 +73,9 @@ class PostService(
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
-    ): Page<Post> = postRepository.findPagePosts(pageable, postSearchDto)
+    ): Page<Post> {
+        return postRepository.findPagePosts(pageable, postSearchDto)
+    }
 
     /**
      * 게시글 삭제

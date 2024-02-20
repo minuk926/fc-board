@@ -19,7 +19,6 @@ import jakarta.persistence.*
  */
 
 @Entity
-@Table
 class Comment(
     content: String,
     post: Post,
@@ -33,8 +32,8 @@ class Comment(
         protected set
 
     // 읽기 전용으로 - 관리는 post에서
-    //@JoinColumn(name = "post_id", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     var post: Post = post
         protected set
 
