@@ -10,7 +10,7 @@ import jakarta.persistence.Id
  * description :
  *
  * packageName : com.fastcampus.fcboard.domain
- * fileName    : User
+ * fileName    : Post
  * author      : limju
  * date        : 2024-02-21
  * ======================================================================
@@ -21,12 +21,11 @@ import jakarta.persistence.Id
  * </pre>
  */
 @Entity
-class User(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L,
-
-    var name: String,
-
-    createdBy: String,
-) : BaseEntity(createdBy)
+class Post(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0L,
+        var title: String,
+        var content: String,
+        createdBy: String) : BaseEntity(createdBy) {
+}

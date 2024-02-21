@@ -27,14 +27,13 @@ import java.time.LocalDateTime
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
 abstract class BaseEntity(
-    craetedBy: String,
-) {
     @CreatedBy
-    @Column(updatable = false)
-    val createdBy: String = craetedBy
+    @Column(nullable = false, updatable = false)
+    val createdBy: String,
+) {
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     var createdAt: LocalDateTime = LocalDateTime.now()
         private set
 
@@ -45,10 +44,11 @@ abstract class BaseEntity(
 
     @LastModifiedBy
     @Column(insertable = false)
-    var updatedAt: LocalDateTime? = LocalDateTime.now()
+    var updatedAt: LocalDateTime? = null
         protected set
 
     fun updateUpdatedBy(updatedBy: String) {
         this.updatedBy = updatedBy
+        this.updatedAt = LocalDateTime.now()
     }
 }
