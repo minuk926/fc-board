@@ -40,7 +40,7 @@ class Post(
 
     // 반드시 필요 : 미정의시 join table 생성
     // 1:N 관계에서 1에 해당하는 쪽이 연관관계의 주인
-    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, orphanRemoval = true, cascade = [CascadeType.ALL])
     var comments: MutableList<Comment> = mutableListOf()
     fun update(postDto: PostDto) {
         if (super.createdBy != postDto.userBy) throw PostNotFoundException()
