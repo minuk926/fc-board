@@ -55,7 +55,7 @@ class PostRepositoryTest {
         postRepository.flush()
 
         // then
-        assert(updatePost.title == "제목")
+        assert(updatePost.title == "제목2")
         assert(updatePost.content == "내용2")
         assert(updatePost.updatedBy == "limju2")
     }
