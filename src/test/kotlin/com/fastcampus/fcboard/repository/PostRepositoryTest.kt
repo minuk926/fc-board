@@ -23,7 +23,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
  *
  * </pre>
  */
-@DataJpaTest(showSql = true, properties = ["spring.jpa.properties.hibernate.format_sql=true"])
+@DataJpaTest // (showSql = true, properties = ["spring.jpa.properties.hibernate.format_sql=true"])
 class PostRepositoryTest {
     @Autowired
     lateinit var testEntityManager: TestEntityManager

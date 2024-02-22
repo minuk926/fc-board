@@ -27,9 +27,5 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
-      multiline: true
-      custom-appender-class: com.p6spy.engine.logging.appender.MultiLineP6Logger
-      log-format: com.fastcampus.config.P6spyFormatter
-#      log-format: com.fastcampus.config.P6spyFormatter
 
 
