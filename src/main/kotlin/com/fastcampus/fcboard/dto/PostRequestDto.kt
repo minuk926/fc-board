@@ -22,9 +22,15 @@ data class PostRequestDto(
     val content: String,
     val userBy: String
 ) {
-    fun toEntity() = Post(
-        title = title,
-        content = content,
-        createdBy = userBy,
-    )
+    /**
+     * PostRequestDto to Post Entity
+     *
+     * @return Post
+     */
+    fun toEntity() =
+        Post(
+            title = title,
+            content = content,
+            createdBy = userBy,
+        )
 }

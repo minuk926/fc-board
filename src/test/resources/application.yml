@@ -11,6 +11,5 @@ spring:
 
 decorator:
   datasource:
-    datasource-proxy:
-      query:
-        enable-logging: true
+    p6spy:
+      enable-logging: true

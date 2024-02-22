@@ -3,6 +3,7 @@ package com.fastcampus.fcboard.web
 import com.fastcampus.fcboard.dto.PostRequestDto
 import com.fastcampus.fcboard.dto.PostResponseDto
 import com.fastcampus.fcboard.dto.PostSearchDto
+import com.fastcampus.fcboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
@@ -23,15 +24,19 @@ import org.springframework.web.bind.annotation.*
 </pre> *
  */
 @RestController
-class PostController {
+class PostController(
+    private val postService: PostService
+) {
     /**
      * 게시글 생성
      * @param postRequestDto 게시글 생성 요청 정보
      * @return 생성한 Post ID
      */
     @PostMapping("/posts")
-    fun createPost(@RequestBody postRequestDto: PostRequestDto): Long {
-        return 1L
+    fun createPost(
+        @RequestBody postRequestDto: PostRequestDto
+    ): Long {
+        return postService.createPost(postRequestDto)
     }
 
     /**
@@ -41,8 +46,11 @@ class PostController {
      * @return 변경한 Post ID
      */
     @PutMapping("/posts/{id}")
-    fun updatePost(@PathVariable id: Long, @RequestBody postRequestDto: PostRequestDto): Long {
-        return id
+    fun updatePost(
+        @PathVariable id: Long,
+        @RequestBody postRequestDto: PostRequestDto
+    ): Long {
+        return postService.updatePost(id, postRequestDto)
     }
 
     /**
@@ -52,8 +60,11 @@ class PostController {
      * @return 삭제한 Post ID
      */
     @DeleteMapping("/posts/{id}")
-    fun deletePost(@PathVariable id: Long, @RequestParam deletedBy: String): Long {
-        return id
+    fun deletePost(
+        @PathVariable id: Long,
+        @RequestParam deletedBy: String
+    ): Long {
+        return postService.deletePost(id, deletedBy)
     }
 
     /**
@@ -62,14 +73,10 @@ class PostController {
      * @return 게시글 정보
      */
     @GetMapping("/posts/{id}")
-    fun getPost(@PathVariable id: Long): PostResponseDto {
-        return PostResponseDto(
-            id = id,
-            title = "제목",
-            content = "내용",
-            createdBy = "작성자",
-            createdAt = "2024-02-22",
-        )
+    fun getPost(
+        @PathVariable id: Long
+    ): PostResponseDto {
+        return postService.getPost(id)
     }
 
     /**
@@ -79,7 +86,10 @@ class PostController {
      * @return 게시글 목록
      */
     @GetMapping("/posts")
-    fun getPosts(pageable: Pageable, postSearchDto: PostSearchDto): Page<PostResponseDto> {
+    fun getPosts(
+        pageable: Pageable,
+        postSearchDto: PostSearchDto
+    ): Page<PostResponseDto> {
         return Page.empty()
     }
 }

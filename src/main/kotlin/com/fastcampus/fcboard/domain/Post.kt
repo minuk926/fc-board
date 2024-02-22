@@ -23,22 +23,21 @@ class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-
     var title: String,
-
     var content: String,
-
     // FetchType.EAGER|LAZY 판단 필요
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
     val comments: MutableList<Comment> = mutableListOf(),
-
     createdBy: String
 ) : BaseEntity(createdBy) {
-
+    /**
+     * 댓글 변경시 Post Entity set
+     *
+     * @param postRequestDto 댓글 변경 정보
+     */
     fun update(postRequestDto: PostRequestDto) {
         this.title = postRequestDto.title
         this.content = postRequestDto.content
         super.updateUpdatedBy(postRequestDto.userBy)
     }
 }
-

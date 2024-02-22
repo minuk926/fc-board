@@ -7,13 +7,17 @@ data class CommentResponseDto(
     val content: String,
     val createdBy: String,
     val createdAt: String
-) {
-
-}
-
-fun Comment.toCommentResponseDto(): CommentResponseDto = CommentResponseDto(
-    id = id,
-    content = content,
-    createdBy = createdBy,
-    createdAt = createdAt.toString(),
 )
+
+/**
+ * Comment Entity to CommentResponseDto
+ *
+ * @return CommentResponseDto
+ */
+fun Comment.toCommentResponseDto(): CommentResponseDto =
+    CommentResponseDto(
+        id = id,
+        content = content,
+        createdBy = createdBy,
+        createdAt = createdAt.toString(),
+    )

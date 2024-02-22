@@ -26,11 +26,17 @@ data class PostResponseDto(
     val createdAt: String
 )
 
-fun Post.toPostResponseDto() = PostResponseDto(
-    id = id,
-    title = title,
-    content = content,
-    comments = comments.map { it.toCommentResponseDto() },
-    createdBy = createdBy,
-    createdAt = createdAt.toString(),
-)
+/**
+ * Post Entity to PostResponseDto
+ *
+ * @return PostResponseDto
+ */
+fun Post.toPostResponseDto() =
+    PostResponseDto(
+        id = id,
+        title = title,
+        content = content,
+        comments = comments.map { it.toCommentResponseDto() },
+        createdBy = createdBy,
+        createdAt = createdAt.toString(),
+    )

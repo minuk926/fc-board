@@ -4,6 +4,7 @@ import com.fastcampus.fcboard.domain.Post
 import com.fastcampus.fcboard.dto.PostRequestDto
 import com.fastcampus.fcboard.dto.PostResponseDto
 import com.fastcampus.fcboard.dto.PostSearchDto
+import com.fastcampus.fcboard.dto.toPostResponseDto
 import com.fastcampus.fcboard.exception.PostNotDeletableException
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import com.fastcampus.fcboard.exception.PostNotUpdatableException
@@ -32,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 @Service
 class PostService(
-    private val postRepository: PostRepository,
+    private val postRepository: PostRepository
 ) {
     /**
      * 게시글 생성
@@ -51,8 +52,11 @@ class PostService(
      * @return 변경한 Post ID
      */
     @Transactional
-    fun updatePost(id: Long, postRequestDto: PostRequestDto): Long {
-        val post = getPost(id)
+    fun updatePost(
+        id: Long,
+        postRequestDto: PostRequestDto
+    ): Long {
+        val post = findPost(id)
         if (post.createdBy != postRequestDto.userBy) {
             throw PostNotUpdatableException()
         }
@@ -67,8 +71,11 @@ class PostService(
      * @return 삭제한 Post ID
      */
     @Transactional
-    fun deletePost(id: Long, deletedBy: String): Long {
-        val post = getPost(id)
+    fun deletePost(
+        id: Long,
+        deletedBy: String
+    ): Long {
+        val post = findPost(id)
         if (post.createdBy != deletedBy) {
             throw PostNotDeletableException()
         }
@@ -81,8 +88,10 @@ class PostService(
      * @param id 게시글 ID
      * @return 게시글 정보
      */
-    fun getPost(id: Long): Post =
-        postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
+    fun getPost(id: Long): PostResponseDto {
+        val post = findPost(id)
+        return post.toPostResponseDto()
+    }
 
     /**
      * 게시글 목록 조회
@@ -90,6 +99,10 @@ class PostService(
      * @param postSearchDto 게시글 검색 정보
      * @return 게시글 목록
      */
-    fun getPosts(pageable: Pageable, postSearchDto: PostSearchDto): Page<PostResponseDto> =
-        Page.empty<PostResponseDto>()
+    fun getPosts(
+        pageable: Pageable,
+        postSearchDto: PostSearchDto
+    ): Page<PostResponseDto> = Page.empty<PostResponseDto>()
+
+    private fun findPost(id: Long): Post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
 }

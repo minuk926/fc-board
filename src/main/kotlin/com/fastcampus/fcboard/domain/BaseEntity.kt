@@ -29,9 +29,8 @@ import java.time.LocalDateTime
 abstract class BaseEntity(
     @CreatedBy
     @Column(nullable = false, updatable = false)
-    val createdBy: String,
+    val createdBy: String
 ) {
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     var createdAt: LocalDateTime = LocalDateTime.now()
@@ -47,6 +46,12 @@ abstract class BaseEntity(
     var updatedAt: LocalDateTime? = null
         protected set
 
+    /**
+     *
+     * update 시 변경자 set
+     * update 시간도 현재 시간으로 set
+     * @param createdBy 생성자
+     */
     fun updateUpdatedBy(updatedBy: String) {
         this.updatedBy = updatedBy
         this.updatedAt = LocalDateTime.now()
