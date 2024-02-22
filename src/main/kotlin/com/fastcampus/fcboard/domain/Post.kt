@@ -1,9 +1,7 @@
 package com.fastcampus.fcboard.domain
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import com.fastcampus.fcboard.dto.PostRequestDto
+import jakarta.persistence.*
 
 /**
  * <pre>
@@ -22,10 +20,25 @@ import jakarta.persistence.Id
  */
 @Entity
 class Post(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0L,
-        var title: String,
-        var content: String,
-        createdBy: String) : BaseEntity(createdBy) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0L,
+
+    var title: String,
+
+    var content: String,
+
+    // FetchType.EAGER|LAZY 판단 필요
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val comments: MutableList<Comment> = mutableListOf(),
+
+    createdBy: String
+) : BaseEntity(createdBy) {
+
+    fun update(postRequestDto: PostRequestDto) {
+        this.title = postRequestDto.title
+        this.content = postRequestDto.content
+        super.updateUpdatedBy(postRequestDto.userBy)
+    }
 }
+

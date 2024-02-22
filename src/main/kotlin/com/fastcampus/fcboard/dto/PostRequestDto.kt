@@ -1,5 +1,7 @@
 package com.fastcampus.fcboard.dto
 
+import com.fastcampus.fcboard.domain.Post
+
 /**
  * <pre>
  * description :
@@ -19,4 +21,10 @@ data class PostRequestDto(
     val title: String,
     val content: String,
     val userBy: String
-)
+) {
+    fun toEntity() = Post(
+        title = title,
+        content = content,
+        createdBy = userBy,
+    )
+}

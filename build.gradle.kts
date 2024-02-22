@@ -74,6 +74,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
+    jvmArgs = listOf("-Xshare:off")
     useJUnitPlatform()
 }
 

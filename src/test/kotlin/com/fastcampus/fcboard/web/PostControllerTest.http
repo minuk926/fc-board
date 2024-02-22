@@ -18,6 +18,9 @@ Content-Type: application/json
     "userBy": "usr"
 }
 
+### 게시글 삭제
+DELETE localhost:8080/posts/1?deletedBy=usr
+
 ### 게시글 상세 조회
 GET localhost:8080/posts/1
 
@@ -25,6 +28,4 @@ GET localhost:8080/posts/1
 #GET localhost:8080/posts?page=0&size=2&sort=title,desc&sort=content,asc&title=&content=&createdBy=
 GET localhost:8080/posts?page=0&size=5&sort=title,desc&sort=content,asc
 
-### 게시글 삭제
-DELETE localhost:8080/posts/1
 

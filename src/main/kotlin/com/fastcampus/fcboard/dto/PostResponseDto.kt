@@ -1,5 +1,7 @@
 package com.fastcampus.fcboard.dto
 
+import com.fastcampus.fcboard.domain.Post
+
 /**
  * <pre>
  * description :
@@ -19,6 +21,16 @@ data class PostResponseDto(
     val id: Long,
     val title: String,
     val content: String? = null,
+    val comments: List<CommentResponseDto> = emptyList(),
     val createdBy: String,
     val createdAt: String
+)
+
+fun Post.toPostResponseDto() = PostResponseDto(
+    id = id,
+    title = title,
+    content = content,
+    comments = comments.map { it.toCommentResponseDto() },
+    createdBy = createdBy,
+    createdAt = createdAt.toString(),
 )
