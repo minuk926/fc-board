@@ -1,7 +1,9 @@
 package com.fastcampus.fcboard
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.restdocs.RestDocumentationContextProvider
@@ -20,8 +22,8 @@ import org.springframework.web.filter.CharacterEncodingFilter
 @SpringBootTest
 abstract class RestControllerTest {
 
-//    @Autowired
-//    lateinit var objectMapper: ObjectMapper
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     lateinit var mockMvc: MockMvc
 

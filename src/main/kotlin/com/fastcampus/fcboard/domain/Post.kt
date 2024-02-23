@@ -26,7 +26,7 @@ class Post(
     var title: String,
     var content: String,
     // FetchType.EAGER|LAZY 판단 필요
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
     val comments: MutableList<Comment> = mutableListOf(),
     createdBy: String
 ) : BaseEntity(createdBy) {

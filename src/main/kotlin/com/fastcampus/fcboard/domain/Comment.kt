@@ -1,5 +1,6 @@
 package com.fastcampus.fcboard.domain
 
+import com.fastcampus.fcboard.dto.CommentRequestDto
 import jakarta.persistence.*
 
 /**
@@ -23,7 +24,7 @@ class Comment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
 
-    val content: String,
+    var content: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -32,4 +33,8 @@ class Comment(
     createdBy: String
 ) : BaseEntity(createdBy) {
 
+    fun update(commentRequestDto: CommentRequestDto) {
+        this.content = commentRequestDto.content
+        super.updateUpdatedBy(commentRequestDto.userBy)
+    }
 }
