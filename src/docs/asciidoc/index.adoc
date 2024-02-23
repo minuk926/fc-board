@@ -56,21 +56,8 @@ endif::[]
 | 서버 에러
 |===
 
-[[overview-error-response]]
-=== HTTP Error Response
-operation::[snippets='http-response,response-fields']
-
-include::overview.adoc[]
-
 
 [[API-LIST]]
-== APIs
-
-[[Member-Find-List-API]]
-=== Member Find List API
-
-* link:Member-API.html[member-Api, window=blank]
-
 == 게시판 API
 
 === Curl Request
