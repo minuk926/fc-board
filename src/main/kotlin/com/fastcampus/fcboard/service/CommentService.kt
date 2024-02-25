@@ -42,9 +42,12 @@ class CommentService(
      * @throws PostNotFoundException 게시글을 찾을 수 없을 때 발생
      */
     @Transactional
-    fun createComment(postId: Long, commentRequestDto: CommentRequestDto): Long {
+    fun createComment(
+        postId: Long,
+        commentRequestDto: CommentRequestDto
+    ): Comment {
         val post = findPost(postId)
-        return commentRepository.save(commentRequestDto.toEntity(post)).id
+        return commentRepository.save(commentRequestDto.toEntity(post))
     }
 
     /**
@@ -56,7 +59,10 @@ class CommentService(
      * @throws CommentNotFoundException 댓글을 변경할 수 없을 때 발생
      */
     @Transactional
-    fun updateComment(id: Long, commentRequestDto: CommentRequestDto): Long {
+    fun updateComment(
+        id: Long,
+        commentRequestDto: CommentRequestDto
+    ): Long {
         val comment = findComment(id)
         if (comment.createdBy != commentRequestDto.userBy) {
             throw CommentNotUpdatableException()
@@ -74,7 +80,10 @@ class CommentService(
      * @throws CommentNotFoundException 댓글을 찾을 수 없을 때 발생
      */
     @Transactional
-    fun deleteComment(id: Long, deletedBy: String): Long {
+    fun deleteComment(
+        id: Long,
+        deletedBy: String
+    ): Long {
         val comment = findComment(id)
         if (comment.createdBy != deletedBy) {
             throw CommentNotDeletableException()

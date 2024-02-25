@@ -18,5 +18,4 @@ import org.springframework.data.jpa.repository.JpaRepository
  *
  * </pre>
  */
-interface CommentRepository : JpaRepository<Comment, Long> {
-}
+interface CommentRepository : JpaRepository<Comment, Long>

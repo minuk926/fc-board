@@ -1,6 +1,8 @@
 package com.fastcampus.fcboard.web
 
 import com.fastcampus.fcboard.dto.CommentRequestDto
+import com.fastcampus.fcboard.dto.CommentResponseDto
+import com.fastcampus.fcboard.dto.toCommentResponseDto
 import com.fastcampus.fcboard.service.CommentService
 import org.springframework.web.bind.annotation.*
 
@@ -23,16 +25,18 @@ import org.springframework.web.bind.annotation.*
 class CommentController(
     private val commentService: CommentService
 ) {
-
     /**
      * 댓글 생성
      * @param postId 게시글 ID
      * @param commentRequestDto 댓글 생성 요청 정보
-     * @return 생성한 댓글 ID
+     * @return 생성한 댓글 정보
      */
-    @PostMapping("/posts/{postId}/comments/")
-    fun createComment(@PathVariable postId: Long, @RequestBody commentRequestDto: CommentRequestDto): Long {
-        return commentService.createComment(postId, commentRequestDto)
+    @PostMapping("/posts/{postId}/comments")
+    fun createComment(
+        @PathVariable postId: Long,
+        @RequestBody commentRequestDto: CommentRequestDto
+    ): CommentResponseDto {
+        return commentService.createComment(postId, commentRequestDto).toCommentResponseDto()
     }
 
     /**
@@ -42,7 +46,10 @@ class CommentController(
      * @return 변경한 댓글 ID
      */
     @PutMapping("/comments/{id}")
-    fun updateComment(@PathVariable id: Long, @RequestBody commentRequestDto: CommentRequestDto): Long {
+    fun updateComment(
+        @PathVariable id: Long,
+        @RequestBody commentRequestDto: CommentRequestDto
+    ): Long {
         return commentService.updateComment(id, commentRequestDto)
     }
 
@@ -53,7 +60,10 @@ class CommentController(
      * @return 삭제한 댓글 ID
      */
     @DeleteMapping("/comments/{id}")
-    fun deleteComment(@PathVariable id: Long, @RequestParam deletedBy: String): Long {
+    fun deleteComment(
+        @PathVariable id: Long,
+        @RequestParam deletedBy: String
+    ): Long {
         return commentService.deleteComment(id, deletedBy)
     }
 }

@@ -37,21 +37,22 @@ import org.springframework.data.repository.findByIdOrNull
 class PostServiceTest(
     private val postService: PostService,
     private val postRepository: PostRepository,
-    private val commentRepository: CommentRepository,
+    private val commentRepository: CommentRepository
 ) : BehaviorSpec(
     {
         given("게시글 생성") {
             `when`("정상적인 게시글 생성 요청 이면") {
-                val postId = postService.createPost(
-                    PostRequestDto(
-                        title = "제목",
-                        content = "내용",
-                        userBy = "작성자",
-                    ),
-                )
+                val post =
+                    postService.createPost(
+                        PostRequestDto(
+                            title = "제목",
+                            content = "내용",
+                            userBy = "작성자",
+                        ),
+                    )
                 then("생성된 게시글을 확인 한다") {
-                    postId shouldBeGreaterThan 0L
-                    val post = postRepository.findByIdOrNull(postId)
+                    post.id shouldBeGreaterThan 0L
+                    val post = postRepository.findByIdOrNull(post.id)
                     post shouldNotBe null
                     post!!.title shouldBe "제목"
                     post.content shouldBe "내용"
@@ -60,22 +61,24 @@ class PostServiceTest(
             }
         }
         given("게시글 변경") {
-            val post = postRepository.save(
-                Post(
-                    title = "제목",
-                    content = "내용",
-                    createdBy = "작성자",
-                ),
-            )
-            `when`("정상적인 게시글 변경 요청 이면") {
-                val updatedPostId = postService.updatePost(
-                    post.id,
-                    PostRequestDto(
-                        title = "수정된 제목",
-                        content = "수정된 내용",
-                        userBy = "작성자",
+            val post =
+                postRepository.save(
+                    Post(
+                        title = "제목",
+                        content = "내용",
+                        createdBy = "작성자",
                     ),
                 )
+            `when`("정상적인 게시글 변경 요청 이면") {
+                val updatedPostId =
+                    postService.updatePost(
+                        post.id,
+                        PostRequestDto(
+                            title = "수정된 제목",
+                            content = "수정된 내용",
+                            userBy = "작성자",
+                        ),
+                    )
                 then("변경된 게시글을 확인 한다") {
                     updatedPostId shouldBe post.id
                     val updatedPost = postRepository.findByIdOrNull(updatedPostId)
@@ -87,16 +90,17 @@ class PostServiceTest(
             }
             `when`("변경 요청한 사용자가 게시글 작성자가 아니면") {
                 then("게시글을 변경할 수 없다는 에러를 발생 시킨다") {
-                    val exception = shouldThrow<PostNotUpdatableException> {
-                        postService.updatePost(
-                            post.id,
-                            PostRequestDto(
-                                title = "수정된 제목",
-                                content = "수정된 내용",
-                                userBy = "변경 요청한 사용자",
-                            ),
-                        )
-                    }
+                    val exception =
+                        shouldThrow<PostNotUpdatableException> {
+                            postService.updatePost(
+                                post.id,
+                                PostRequestDto(
+                                    title = "수정된 제목",
+                                    content = "수정된 내용",
+                                    userBy = "변경 요청한 사용자",
+                                ),
+                            )
+                        }
                     exception.message shouldBe "게시글을 변경할 수 없습니다."
                 }
             }
@@ -116,18 +120,20 @@ class PostServiceTest(
             }
         }
         given("게시글 삭제") {
-            val post = postRepository.save(
-                Post(
-                    title = "제목",
-                    content = "내용",
-                    createdBy = "작성자",
-                ),
-            )
+            val post =
+                postRepository.save(
+                    Post(
+                        title = "제목",
+                        content = "내용",
+                        createdBy = "작성자",
+                    ),
+                )
             When("삭제 요청한 게시글이 없으면") {
                 Then("게시글을 찾을 수 없다는 에러를 발생 시킨다") {
-                    val exception = shouldThrow<PostNotFoundException> {
-                        postService.deletePost(9999L, "삭제 요청한 사용자")
-                    }
+                    val exception =
+                        shouldThrow<PostNotFoundException> {
+                            postService.deletePost(9999L, "삭제 요청한 사용자")
+                        }
                     exception.message shouldBe "게시글을 찾을 수 없습니다."
                 }
             }
@@ -149,13 +155,14 @@ class PostServiceTest(
             }
         }
         given("게시글 상세 조회") {
-            val savedPost = postRepository.save(
-                Post(
-                    title = "제목",
-                    content = "내용",
-                    createdBy = "작성자",
-                ),
-            )
+            val savedPost =
+                postRepository.save(
+                    Post(
+                        title = "제목",
+                        content = "내용",
+                        createdBy = "작성자",
+                    ),
+                )
             When("게시글이 정상 조회 되면") {
                 Then("조회된 게시글을 확인 한다") {
                     val post = postService.getPost(savedPost.id)
@@ -173,13 +180,14 @@ class PostServiceTest(
                 }
             }
             When("댓글이 있는 게시글을 조회 하면") {
-                val comment1 = commentRepository.save(
-                    Comment(
-                        content = "댓글-1",
-                        createdBy = "댓글작성자",
-                        post = savedPost,
-                    ),
-                )
+                val comment1 =
+                    commentRepository.save(
+                        Comment(
+                            content = "댓글-1",
+                            createdBy = "댓글작성자",
+                            post = savedPost,
+                        ),
+                    )
                 Then("조회된 게시글의 댓글을 확인 한다") {
                     val post = postService.getPost(savedPost.id)
                     post.comments.size shouldBe 1
@@ -191,4 +199,3 @@ class PostServiceTest(
         }
     },
 )
-

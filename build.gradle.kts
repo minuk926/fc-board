@@ -32,7 +32,6 @@ repositories {
 }
 
 dependencies {
-    val p6spyVersion = "1.9.1"
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -50,6 +49,7 @@ dependencies {
 
     // p6spy ----------------------------------------------------------------
     // p6spy spring boot 2.X - 1.8.1, sprin boot 3.X - 1.9.1
+    val p6spyVersion = "1.9.1"
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:$p6spyVersion")
     // -----------------------------------------------------------------------
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
@@ -62,6 +62,11 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
     // mockk
     testImplementation("io.mockk:mockk:1.13.8")
+
+    // assured ----------------------------------------------------------------
+    val assuredVersion = "5.3.2"
+    testImplementation("io.rest-assured:rest-assured:$assuredVersion")
+    testImplementation("io.rest-assured:json-schema-validator:$assuredVersion")
 }
 
 tasks.withType<KotlinCompile> {
@@ -88,9 +93,9 @@ allOpen {
     annotation("com.fastcampus.config.AllOpen")
 }
 
-//---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 // asciidoctor : https://shanepark.tistory.com/424
-//---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 val asciidoctorExt: Configuration by configurations.creating
 dependencies {
     asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
@@ -115,6 +120,7 @@ tasks {
                 "java.base/java.io=ALL-UNNAMED",
             )
         }
+        delete("src/main/resources/static/docs")
         // test 가 성공해야만, 아래 Task 실행
         dependsOn(test)
     }
@@ -134,8 +140,6 @@ tasks {
     register<Copy>("copyAsciidocFile") {
         dependsOn(asciidoctor)
 
-        delete("src/main/resources/static/docs")
-
         destinationDir = file("src/main/resources/static")
         from("build/docs/asciidoc") {
             into("docs")
@@ -143,11 +147,5 @@ tasks {
         from(file(snippetsDir)) {
             into("docs")
         }
-    }
-
-    // asciidoctorBuild Task 생성 - asciidoctor Task 실행 후, asciidoc 파일을 복사
-    register("asciidoctorBuild") {
-        dependsOn(asciidoctor)
-        dependsOn("copyAsciidocFile")
     }
 }

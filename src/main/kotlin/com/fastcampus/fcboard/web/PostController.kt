@@ -3,6 +3,7 @@ package com.fastcampus.fcboard.web
 import com.fastcampus.fcboard.dto.PostRequestDto
 import com.fastcampus.fcboard.dto.PostResponseDto
 import com.fastcampus.fcboard.dto.PostSearchDto
+import com.fastcampus.fcboard.dto.toPostResponseDto
 import com.fastcampus.fcboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -30,13 +31,14 @@ class PostController(
     /**
      * 게시글 생성
      * @param postRequestDto 게시글 생성 요청 정보
-     * @return 생성한 Post ID
+     * @return 생성한 게시글 정보
      */
     @PostMapping("/posts")
+    @ResponseBody
     fun createPost(
         @RequestBody postRequestDto: PostRequestDto
-    ): Long {
-        return postService.createPost(postRequestDto)
+    ): PostResponseDto {
+        return postService.createPost(postRequestDto).toPostResponseDto()
     }
 
     /**
@@ -77,6 +79,7 @@ class PostController(
         @PathVariable id: Long
     ): PostResponseDto {
         return postService.getPost(id)
+        // return PostResponseDto(1, "제목", "내용", emptyList(), "작성자", "")
     }
 
     /**
@@ -90,6 +93,6 @@ class PostController(
         pageable: Pageable,
         postSearchDto: PostSearchDto
     ): Page<PostResponseDto> {
-        return Page.empty()
+        return postService.getPosts(pageable, postSearchDto)
     }
 }

@@ -5,4 +5,3 @@ data class PostSearchDto(
     val content: String?,
     val createdBy: String?
 )
-

@@ -23,16 +23,12 @@ class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-
     var content: String,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     val post: Post,
-
     createdBy: String
 ) : BaseEntity(createdBy) {
-
     fun update(commentRequestDto: CommentRequestDto) {
         this.content = commentRequestDto.content
         super.updateUpdatedBy(commentRequestDto.userBy)

@@ -3,9 +3,9 @@ POST localhost:8080/posts
 Content-Type: application/json
 
 {
-    "title": "title11~",
-    "content": "content22~",
-    "userBy": "usr"
+  "title": "title11~",
+  "content": "content22~",
+  "userBy": "usr"
 }
 
 ### 게시글 변경
@@ -13,9 +13,9 @@ PUT localhost:8080/posts/1
 Content-Type: application/json
 
 {
-    "title": "title",
-    "content": "content",
-    "userBy": "usr"
+  "title": "title",
+  "content": "content",
+  "userBy": "usr"
 }
 
 ### 게시글 삭제
@@ -25,7 +25,7 @@ DELETE localhost:8080/posts/1?deletedBy=usr
 GET localhost:8080/posts/1
 
 ### 게시글 조회
-#GET localhost:8080/posts?page=0&size=2&sort=title,desc&sort=content,asc&title=&content=&createdBy=
-GET localhost:8080/posts?page=0&size=5&sort=title,desc&sort=content,asc
+GET localhost:8080/posts?page=0&size=5&sort=title,desc&sort=content,asc&title=title&content=&createdBy=
+#GET localhost:8080/posts?page=0&size=5&sort=title,desc&sort=content,asc
 
 

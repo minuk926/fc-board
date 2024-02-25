@@ -41,8 +41,8 @@ class PostService(
      * @return 생성한 Post ID
      */
     @Transactional
-    fun createPost(postRequestDto: PostRequestDto): Long {
-        return postRepository.save(postRequestDto.toEntity()).id
+    fun createPost(postRequestDto: PostRequestDto): Post {
+        return postRepository.save(postRequestDto.toEntity())
     }
 
     /**
@@ -102,7 +102,7 @@ class PostService(
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
-    ): Page<PostResponseDto> = Page.empty<PostResponseDto>()
+    ): Page<PostResponseDto> = postRepository.findByPage(pageable, postSearchDto).map(Post::toPostResponseDto)
 
     private fun findPost(id: Long): Post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
 }
