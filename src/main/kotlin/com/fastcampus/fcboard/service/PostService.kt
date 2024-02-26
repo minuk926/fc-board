@@ -38,7 +38,7 @@ class PostService(
     /**
      * 게시글 생성
      * @param postRequestDto 게시글 생성 요청 정보
-     * @return 생성한 Post ID
+     * @return 생성한 게시글 정보
      */
     @Transactional
     fun createPost(postRequestDto: PostRequestDto): Post {
@@ -49,7 +49,7 @@ class PostService(
      * 게시글 변경
      * @param id 게시글 ID
      * @param postRequestDto 게시글 변경 요청 정보
-     * @return 변경한 Post ID
+     * @return 변경한 게시글 정보
      */
     @Transactional
     fun updatePost(

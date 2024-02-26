@@ -40,7 +40,7 @@ class CommentService(
      * 댓글 생성
      * @param postId 게시글 ID
      * @param commentRequestDto 댓글 생성 요청 정보
-     * @return 생성한 댓글 ID
+     * @return 생성한 댓글 정보
      * @throws PostNotFoundException 게시글을 찾을 수 없을 때 발생
      */
     @Transactional
@@ -56,7 +56,7 @@ class CommentService(
      * 댓글 변경
      * @param id 댓글 ID
      * @param commentRequestDto 댓글 변경 요청 정보
-     * @return 변경한 댓글 ID
+     * @return 변경한 댓글 정보
      * @throws CommentNotUpdatableException 댓글을 삭제할 수 없을 때 발생
      * @throws CommentNotFoundException 댓글을 변경할 수 없을 때 발생
      */

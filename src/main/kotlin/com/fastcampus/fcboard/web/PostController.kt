@@ -45,7 +45,7 @@ class PostController(
      * 게시글 변경
      * @param id 게시글 ID
      * @param postRequestDto 게시글 변경 요청 정보
-     * @return 변경한 Post ID
+     * @return 변경한 게시글 정보
      */
     @PutMapping("/posts/{id}")
     fun updatePost(
@@ -79,7 +79,6 @@ class PostController(
         @PathVariable id: Long
     ): PostResponseDto {
         return postService.getPost(id)
-        // return PostResponseDto(1, "제목", "내용", emptyList(), "작성자", "")
     }
 
     /**

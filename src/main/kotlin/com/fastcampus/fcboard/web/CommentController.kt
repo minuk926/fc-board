@@ -43,7 +43,7 @@ class CommentController(
      * 댓글 변경
      * @param id 댓글 ID
      * @param commentRequestDto 댓글 변경 요청 정보
-     * @return 변경한 댓글 ID
+     * @return 변경한 댓글 정보
      */
     @PutMapping("/comments/{id}")
     fun updateComment(
