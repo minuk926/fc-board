@@ -1,9 +1,6 @@
 package com.fastcampus.fcboard.web
 
-import com.fastcampus.fcboard.dto.PostRequestDto
-import com.fastcampus.fcboard.dto.PostResponseDto
-import com.fastcampus.fcboard.dto.PostSearchDto
-import com.fastcampus.fcboard.dto.toPostResponseDto
+import com.fastcampus.fcboard.dto.*
 import com.fastcampus.fcboard.service.PostService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -91,7 +88,7 @@ class PostController(
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
-    ): Page<PostResponseDto> {
+    ): Page<PostResponseListDto> {
         return postService.getPosts(pageable, postSearchDto)
     }
 }

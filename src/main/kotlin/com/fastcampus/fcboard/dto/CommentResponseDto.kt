@@ -1,6 +1,7 @@
 package com.fastcampus.fcboard.dto
 
 import com.fastcampus.fcboard.domain.Comment
+import java.time.format.DateTimeFormatter
 
 data class CommentResponseDto(
     val id: Long,
@@ -19,5 +20,5 @@ fun Comment.toCommentResponseDto(): CommentResponseDto =
         id = id,
         content = content,
         createdBy = createdBy,
-        createdAt = createdAt.toString(),
+        createdAt = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
     )

@@ -20,7 +20,8 @@ import com.fastcampus.fcboard.domain.Post
 data class PostRequestDto(
     val title: String,
     val content: String,
-    val userBy: String
+    val userBy: String,
+    val tags: List<String> = emptyList()
 ) {
     /**
      * PostRequestDto to Post Entity
@@ -31,6 +32,7 @@ data class PostRequestDto(
         Post(
             title = title,
             content = content,
+            tags = tags,
             createdBy = userBy,
         )
 }

@@ -79,20 +79,20 @@ class CommentControllerAssuredTest {
                 content = "변경된 댓글 내용",
                 userBy = "댓글 작성자",
             )
-        val commentId =
-            given()
-                .log().uri()
-                .log().body()
-                .spec(reqSpec)
-                .body(mapper.writeValueAsString(updateCommentRequestDto))
-                .`when`()
-                .put("/comments/{commentId}", commentResponseDto.id)
-                .then()
-                .log().all()
-                .statusCode(HttpStatus.OK.value())
-                .body("id", org.hamcrest.Matchers.equalTo(postResponseDto.id.toInt()))
-                .body("content", org.hamcrest.Matchers.equalTo("변경된 댓글 내용"))
-                .body("createdBy", org.hamcrest.Matchers.equalTo("댓글 작성자"))
+
+        given()
+            .log().uri()
+            .log().body()
+            .spec(reqSpec)
+            .body(mapper.writeValueAsString(updateCommentRequestDto))
+            .`when`()
+            .put("/comments/{commentId}", commentResponseDto.id)
+            .then()
+            .log().all()
+            .statusCode(HttpStatus.OK.value())
+            .body("id", org.hamcrest.Matchers.equalTo(postResponseDto.id.toInt()))
+            .body("content", org.hamcrest.Matchers.equalTo("변경된 댓글 내용"))
+            .body("createdBy", org.hamcrest.Matchers.equalTo("댓글 작성자"))
     }
 
     private fun initPost() {

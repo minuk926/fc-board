@@ -1,13 +1,9 @@
 package com.fastcampus.fcboard.service
 
 import com.fastcampus.fcboard.domain.Post
-import com.fastcampus.fcboard.dto.PostRequestDto
-import com.fastcampus.fcboard.dto.PostResponseDto
-import com.fastcampus.fcboard.dto.PostSearchDto
-import com.fastcampus.fcboard.dto.toPostResponseDto
+import com.fastcampus.fcboard.dto.*
 import com.fastcampus.fcboard.exception.PostNotDeletableException
 import com.fastcampus.fcboard.exception.PostNotFoundException
-import com.fastcampus.fcboard.exception.PostNotUpdatableException
 import com.fastcampus.fcboard.repository.PostRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -57,9 +53,6 @@ class PostService(
         postRequestDto: PostRequestDto
     ): PostResponseDto {
         val post = findPost(id)
-        if (post.createdBy != postRequestDto.userBy) {
-            throw PostNotUpdatableException()
-        }
         post.update(postRequestDto)
         return postRepository.save(post).toPostResponseDto()
     }
@@ -102,7 +95,7 @@ class PostService(
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
-    ): Page<PostResponseDto> = postRepository.findByPage(pageable, postSearchDto).map(Post::toPostResponseDto)
+    ): Page<PostResponseListDto> = postRepository.findByPage(pageable, postSearchDto).map(Post::toPostResponseListDto)
 
     private fun findPost(id: Long): Post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
 }

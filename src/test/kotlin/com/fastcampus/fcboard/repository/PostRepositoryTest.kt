@@ -59,16 +59,5 @@ class PostRepositoryTest {
         assert(savedPost.comments[0].content == "댓글-1")
         assert(savedPost.comments[1].content == "댓글-2")
         assert(savedPost.comments[2].content == "댓글-3")
-
-        // when
-        savedPost.title = "제목-11"
-        savedPost.content = "내용-11"
-        savedPost.updateUpdatedBy("limju~~")
-        val updatePost = postRepository.save(savedPost)
-
-        // then
-        assert(updatePost.title == "제목-11")
-        assert(updatePost.content == "내용-11")
-        assert(updatePost.updatedBy == "limju~~")
     }
 }

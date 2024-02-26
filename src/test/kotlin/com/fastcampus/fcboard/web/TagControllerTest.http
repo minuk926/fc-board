@@ -1,0 +1,12 @@
+### 태그 생성
+POST localhost:8080/posts/1/tags
+Content-Type: application/json
+
+{
+    "name": "태그",
+    "userBy": "user"
+}
+
+### 태그 삭제
+DELETE localhost:8080/tags/1?deletedBy=user-1
+

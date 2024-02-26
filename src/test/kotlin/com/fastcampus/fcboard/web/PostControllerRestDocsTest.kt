@@ -35,6 +35,7 @@ class PostControllerRestdocTest(
                     title = "제목",
                     content = "내용",
                     createdBy = "작성자",
+                    tags = listOf("태그1", "태그2"),
                 ),
             )
 
@@ -53,12 +54,13 @@ class PostControllerRestdocTest(
                     parameterWithName("id").description("게시글 id"),
                 ),
                 responseFields(
-                    fieldWithPath("id").description("게시글 id"),
-                    fieldWithPath("title").description("게시글 제목"),
-                    fieldWithPath("content").description("게시글 내용"),
-                    fieldWithPath("createdBy").description("게시글 작성자"),
-                    fieldWithPath("createdAt").description("게시글 작성일"),
-                    fieldWithPath("comments").description("댓글 목록"),
+                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시글 id"),
+                    fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
+                    fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용"),
+                    fieldWithPath("createdBy").type(JsonFieldType.STRING).description("게시글 작성자"),
+                    fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시글 작성일"),
+                    fieldWithPath("comments").type(JsonFieldType.ARRAY).description("댓글 목록"),
+                    fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그 목록"),
                 ),
             )
     }
@@ -72,6 +74,7 @@ class PostControllerRestdocTest(
                 title = "제목",
                 content = "내용",
                 userBy = "작성자",
+                tags = listOf("태그1", "태그2"),
             )
         val request = objectMapper.writeValueAsString(postRequestDto)
 
@@ -89,19 +92,19 @@ class PostControllerRestdocTest(
             .andDo(MockMvcResultHandlers.print())
             .andDocument(
                 requestFields(
-                    // listOf(
                     fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
                     fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용"),
+                    fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그 목록"),
                     fieldWithPath("userBy").type(JsonFieldType.STRING).description("게시글 작성자"),
-                    // ),
                 ),
                 responseFields(
                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시글 id"),
-                    fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                    fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
+                    fieldWithPath("title").type(JsonFieldType.STRING).description("게시글 제목"),
+                    fieldWithPath("content").type(JsonFieldType.STRING).description("게시글 내용"),
                     fieldWithPath("createdBy").type(JsonFieldType.STRING).description("게시글 작성자"),
                     fieldWithPath("createdAt").type(JsonFieldType.STRING).description("게시글 작성일"),
                     fieldWithPath("comments").type(JsonFieldType.ARRAY).description("댓글 목록"),
+                    fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그 목록"),
                 ),
             )
     }

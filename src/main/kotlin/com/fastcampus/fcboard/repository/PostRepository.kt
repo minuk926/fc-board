@@ -53,6 +53,9 @@ class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport
                 ),
             )
         }
+        if (orders.isEmpty()) {
+            orders.add(OrderSpecifier(Order.DESC, post.createdAt))
+        }
 
         val result =
             from(post)
@@ -65,6 +68,9 @@ class CustomPostRepositoryImpl : CustomPostRepository, QuerydslRepositorySupport
                     },
                     postSearchDto.createdBy?.let {
                         if (isNotEmpty(it)) post.createdBy.contains(it) else null
+                    },
+                    postSearchDto.tag?.let {
+                        if (isNotEmpty(it)) post.tags.any().name.eq(it) else null
                     },
                 )
                 .orderBy(*orders.toTypedArray())

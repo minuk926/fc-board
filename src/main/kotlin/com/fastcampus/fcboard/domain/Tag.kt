@@ -1,8 +1,7 @@
 package com.fastcampus.fcboard.domain
 
 import com.fastcampus.config.AllOpen
-import com.fastcampus.fcboard.dto.CommentRequestDto
-import com.fastcampus.fcboard.exception.CommentNotUpdatableException
+import com.fastcampus.fcboard.dto.TagRequestDto
 import jakarta.persistence.*
 
 /**
@@ -10,20 +9,20 @@ import jakarta.persistence.*
  * description :
  *
  * packageName : com.fastcampus.fcboard.domain
- * fileName    : Comment
+ * fileName    : Tag
  * author      : limju
- * date        : 2024-02-22
+ * date        : 2024-02-26
  * ======================================================================
  * 변경일         변경자        변경 내용
  * ----------------------------------------------------------------------
- * 2024-02-22    limju       최초 생성
+ * 2024-02-26    limju       최초 생성
  *
  * </pre>
  */
 @Entity
 @AllOpen
-class Comment(
-    content: String,
+class Tag(
+    name: String,
     post: Post,
     createdBy: String
 ) : BaseEntity(createdBy) {
@@ -31,7 +30,7 @@ class Comment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 
-    var content: String = content
+    var name: String = name
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,9 +38,8 @@ class Comment(
     var post: Post = post
         protected set
 
-    fun update(commentRequestDto: CommentRequestDto) {
-        if (createdBy != commentRequestDto.userBy) throw CommentNotUpdatableException()
-        this.content = commentRequestDto.content
-        super.updateUpdatedBy(commentRequestDto.userBy)
+    fun update(tagRequestDto: TagRequestDto) {
+        this.name = tagRequestDto.name
+        super.updateUpdatedBy(tagRequestDto.createdBy)
     }
 }

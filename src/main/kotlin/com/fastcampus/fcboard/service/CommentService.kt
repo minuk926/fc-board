@@ -66,9 +66,6 @@ class CommentService(
         commentRequestDto: CommentRequestDto
     ): CommentResponseDto {
         val comment = findComment(id)
-        if (comment.createdBy != commentRequestDto.userBy) {
-            throw CommentNotUpdatableException()
-        }
         comment.update(commentRequestDto)
         return commentRepository.save(comment).toCommentResponseDto()
     }

@@ -18,12 +18,11 @@ import java.time.format.DateTimeFormatter
  *
  * </pre>
  */
-data class PostResponseDto(
+data class PostResponseListDto(
     val id: Long,
     val title: String,
     val content: String? = null,
-    val comments: List<CommentResponseDto> = emptyList(),
-    val tags: List<String> = emptyList(),
+    val firstTag: String? = null,
     val createdBy: String,
     val createdAt: String
 )
@@ -33,13 +32,12 @@ data class PostResponseDto(
  *
  * @return PostResponseDto
  */
-fun Post.toPostResponseDto() =
-    PostResponseDto(
+fun Post.toPostResponseListDto() =
+    PostResponseListDto(
         id = id,
         title = title,
         content = content,
-        comments = comments.map { it.toCommentResponseDto() },
-        tags = tags.map { it.name },
+        firstTag = tags.firstOrNull()?.name,
         createdBy = createdBy,
         createdAt = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
     )
