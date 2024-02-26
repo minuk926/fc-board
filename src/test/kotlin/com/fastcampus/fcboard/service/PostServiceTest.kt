@@ -51,10 +51,9 @@ class PostServiceTest(
                         ),
                     )
                 then("생성된 게시글을 확인 한다") {
-                    post.id shouldBeGreaterThan 0L
-                    val post = postRepository.findByIdOrNull(post.id)
                     post shouldNotBe null
-                    post!!.title shouldBe "제목"
+                    post.id shouldBeGreaterThan 0L
+                    post.title shouldBe "제목"
                     post.content shouldBe "내용"
                     post.createdBy shouldBe "작성자"
                 }
@@ -70,7 +69,7 @@ class PostServiceTest(
                     ),
                 )
             `when`("정상적인 게시글 변경 요청 이면") {
-                val updatedPostId =
+                val postResponseDto =
                     postService.updatePost(
                         post.id,
                         PostRequestDto(
@@ -80,12 +79,11 @@ class PostServiceTest(
                         ),
                     )
                 then("변경된 게시글을 확인 한다") {
-                    updatedPostId shouldBe post.id
-                    val updatedPost = postRepository.findByIdOrNull(updatedPostId)
-                    updatedPost shouldNotBe null
-                    updatedPost!!.title shouldBe "수정된 제목"
-                    updatedPost.content shouldBe "수정된 내용"
-                    updatedPost.createdBy shouldBe "작성자"
+                    postResponseDto shouldNotBe null
+                    postResponseDto.id shouldBe post.id
+                    postResponseDto.title shouldBe "수정된 제목"
+                    postResponseDto.content shouldBe "수정된 내용"
+                    postResponseDto.createdBy shouldBe "작성자"
                 }
             }
             `when`("변경 요청한 사용자가 게시글 작성자가 아니면") {

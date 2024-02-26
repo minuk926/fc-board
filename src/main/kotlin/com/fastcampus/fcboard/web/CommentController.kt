@@ -49,7 +49,7 @@ class CommentController(
     fun updateComment(
         @PathVariable id: Long,
         @RequestBody commentRequestDto: CommentRequestDto
-    ): Long {
+    ): CommentResponseDto {
         return commentService.updateComment(id, commentRequestDto)
     }
 

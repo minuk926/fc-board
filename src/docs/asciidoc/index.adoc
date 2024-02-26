@@ -10,7 +10,7 @@ endif::[]
 :source-highlighter: highlightjs
 :toc: left
 :toc-title: 목차
-:toclevels: 4
+:toclevels: 5
 :sectnums:
 :sectlinks:
 :sectanchors:
@@ -59,22 +59,29 @@ endif::[]
 
 [[API-LIST]]
 == 게시판 API
+=== 게시글 API
+==== 게시글 생성
+===== Request
+include::{snippets}/post-controller-restdoc-test/create-post/http-request.adoc[]
+include::{snippets}/post-controller-restdoc-test/create-post/request-fields.adoc[]
 
-=== Curl Request
-include::{snippets}/post/curl-request.adoc[]
-=== Request
-include::{snippets}/post/http-request.adoc[]
-include::{snippets}/post/request-body.adoc[]
-=== Response
-include::{snippets}/post/http-response.adoc[]
-//include::{snippets}/post/response-body.adoc[]
-include::{snippets}/post/response-fields.adoc[]
+===== Response
+include::{snippets}/post-controller-restdoc-test/create-post/http-response.adoc[]
+include::{snippets}/post-controller-restdoc-test/create-post/response-fields.adoc[]
 
-== 댓글 API
+===== Curl Request
+include::{snippets}/post-controller-restdoc-test/create-post/curl-request.adoc[]
 
-=== Curl Request
-include::{snippets}/post/curl-request.adoc[]
-=== Request
-include::{snippets}/post/http-request.adoc[]
-=== >Response
-include::{snippets}/post/http-response.adoc[]
+
+==== 게시글 상세 조회
+
+===== Request
+include::{snippets}/post-controller-restdoc-test/get-post/http-request.adoc[]
+include::{snippets}/post-controller-restdoc-test/get-post/path-parameters.adoc[]
+
+===== Response
+include::{snippets}/post-controller-restdoc-test/get-post/http-response.adoc[]
+include::{snippets}/post-controller-restdoc-test/get-post/response-fields.adoc[]
+
+===== Curl Request
+include::{snippets}/post-controller-restdoc-test/get-post/curl-request.adoc[]

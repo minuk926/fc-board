@@ -3,6 +3,8 @@ package com.fastcampus.fcboard.service
 import com.fastcampus.fcboard.domain.Comment
 import com.fastcampus.fcboard.domain.Post
 import com.fastcampus.fcboard.dto.CommentRequestDto
+import com.fastcampus.fcboard.dto.CommentResponseDto
+import com.fastcampus.fcboard.dto.toCommentResponseDto
 import com.fastcampus.fcboard.exception.CommentNotDeletableException
 import com.fastcampus.fcboard.exception.CommentNotFoundException
 import com.fastcampus.fcboard.exception.CommentNotUpdatableException
@@ -62,13 +64,13 @@ class CommentService(
     fun updateComment(
         id: Long,
         commentRequestDto: CommentRequestDto
-    ): Long {
+    ): CommentResponseDto {
         val comment = findComment(id)
         if (comment.createdBy != commentRequestDto.userBy) {
             throw CommentNotUpdatableException()
         }
         comment.update(commentRequestDto)
-        return commentRepository.save(comment).id
+        return commentRepository.save(comment).toCommentResponseDto()
     }
 
     /**

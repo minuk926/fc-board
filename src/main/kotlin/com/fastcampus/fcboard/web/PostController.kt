@@ -51,7 +51,7 @@ class PostController(
     fun updatePost(
         @PathVariable id: Long,
         @RequestBody postRequestDto: PostRequestDto
-    ): Long {
+    ): PostResponseDto {
         return postService.updatePost(id, postRequestDto)
     }
 

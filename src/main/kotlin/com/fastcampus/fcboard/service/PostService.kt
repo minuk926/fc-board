@@ -55,13 +55,13 @@ class PostService(
     fun updatePost(
         id: Long,
         postRequestDto: PostRequestDto
-    ): Long {
+    ): PostResponseDto {
         val post = findPost(id)
         if (post.createdBy != postRequestDto.userBy) {
             throw PostNotUpdatableException()
         }
         post.update(postRequestDto)
-        return postRepository.save(post).id
+        return postRepository.save(post).toPostResponseDto()
     }
 
     /**
