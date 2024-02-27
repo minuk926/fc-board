@@ -7,10 +7,18 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_batch_fetch_size: 10
+
+  cache:
+    type: redis
+    redis:
+      host: localhost
+      port: 16379
+
+
 
 decorator:
   datasource:

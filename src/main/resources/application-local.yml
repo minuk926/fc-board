@@ -6,6 +6,11 @@ spring:
     #driver-class-name: org.mariadb.jdbc.Driver
     # mysql driver
     driver-class-name: com.mysql.cj.jdbc.Driver
+  cache:
+    type: redis
+    redis:
+      host: localhost
+      port: 6379
 
   #    url: jdbc:h2:mem:test
   #    username: sa
