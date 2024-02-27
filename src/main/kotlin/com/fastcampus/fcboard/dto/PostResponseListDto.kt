@@ -1,6 +1,9 @@
 package com.fastcampus.fcboard.dto
 
 import com.fastcampus.fcboard.domain.Post
+import com.fastcampus.fcboard.domain.Tag
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import java.time.format.DateTimeFormatter
 
 /**
@@ -44,5 +47,5 @@ fun Post.toPostResponseListDto(countLike: (Long) -> (Long)) =
         createdAt = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
     )
 
-//fun Page<Post>.toPostResponseListDto(countLike: (Long) -> Long) =
-//    PageImpl(content.map { it.toPostResponseListDto(countLike) }, pageable, totalElements)
+fun Page<Tag>.toPostResponseListDto(countLike: (Long) -> Long) =
+    PageImpl(content.map { it.post.toPostResponseListDto(countLike) }, pageable, totalElements)

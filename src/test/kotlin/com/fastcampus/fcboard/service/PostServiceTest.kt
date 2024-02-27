@@ -158,7 +158,7 @@ class PostServiceTest(
                     tags[2].name shouldBe "태그3"
                 }
                 then("태그 순서가 변경되면") {
-                    val updatedPost = postService.updatePost(
+                    val postResDto = postService.updatePost(
                         post.id,
                         PostRequestDto(
                             title = "수정된 제목",
@@ -167,7 +167,7 @@ class PostServiceTest(
                             tags = listOf("태그3", "태그2", "태그1"),
                         ),
                     )
-                    val tags = tagRepository.findByPostId(updatedPost.id)
+                    val tags = tagRepository.findByPostId(postResDto.id)
                     tags.size shouldBe 3
                     tags[0].name shouldBe "태그3"
                     tags[1].name shouldBe "태그2"

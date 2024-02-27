@@ -5,6 +5,7 @@ import com.fastcampus.fcboard.dto.*
 import com.fastcampus.fcboard.exception.PostNotDeletableException
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import com.fastcampus.fcboard.repository.PostRepository
+import com.fastcampus.fcboard.repository.TagRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
@@ -30,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class PostService(
     private val postRepository: PostRepository,
-    private val likeService: LikeService
+    private val likeService: LikeService,
+    private val tagRepository: TagRepository,
 ) {
     /**
      * 게시글 생성
@@ -96,8 +98,13 @@ class PostService(
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
-    ): Page<PostResponseListDto> =
-        postRepository.findByPage(pageable, postSearchDto).map { it.toPostResponseListDto(likeService::countLike) }
+    ): Page<PostResponseListDto> {
+        postSearchDto.tag?.let {
+            return tagRepository.findByPage(pageable, it).toPostResponseListDto(likeService::countLike)
+        }
+        return postRepository.findByPage(pageable, postSearchDto)
+            .map { it.toPostResponseListDto(likeService::countLike) }
+    }
 
     private fun findPost(id: Long): Post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
 }
