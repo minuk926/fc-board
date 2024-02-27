@@ -2,6 +2,7 @@ package com.fastcampus.fcboard.repository
 
 import com.fastcampus.fcboard.domain.Post
 import com.fastcampus.fcboard.domain.QPost
+import com.fastcampus.fcboard.domain.QPost.post
 import com.fastcampus.fcboard.domain.QTag.tag
 import com.fastcampus.fcboard.domain.Tag
 import com.querydsl.core.types.Expression
@@ -54,7 +55,7 @@ class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(T
         }
 
         return from(tag)
-            .join(tag.post).fetchJoin()
+            .join(tag.post, post).fetchJoin()
             .where(tag.name.eq(tagName))
             .orderBy(*orders.toTypedArray())
             .offset(pageable.offset)
