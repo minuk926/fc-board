@@ -37,7 +37,6 @@ class RedisUtil(
 
     fun getCount(key: String): Long? {
         return redisTemplate.opsForValue().get(key)?.toString()?.toLong()
-
     }
 
     fun getLikeCountKey(postId: Long): String {

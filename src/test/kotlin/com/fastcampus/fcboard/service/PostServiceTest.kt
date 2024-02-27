@@ -12,7 +12,6 @@ import com.fastcampus.fcboard.repository.CommentRepository
 import com.fastcampus.fcboard.repository.PostRepository
 import com.fastcampus.fcboard.repository.TagRepository
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.common.ExperimentalKotest
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.extensions.testcontainers.perSpec
 import io.kotest.matchers.comparables.shouldBeGreaterThan
@@ -38,7 +37,6 @@ import org.testcontainers.containers.GenericContainer
  *
  * </pre>
  */
-@OptIn(ExperimentalKotest::class)
 @SpringBootTest
 class PostServiceTest(
     private val postService: PostService,
@@ -48,8 +46,7 @@ class PostServiceTest(
     private val likeSevice: LikeService
 ) : BehaviorSpec(
     {
-        val redisContainer = GenericContainer<Nothing>("alphasocket/redis-apline")
-        //val redisContainer =
+        val redisContainer = GenericContainer<Nothing>("redis:5.0.3-alpine")
         beforeSpec {
             redisContainer.portBindings.add("16379:6379")
             redisContainer.start()

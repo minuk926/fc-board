@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional
 class LikeService(
     private val likeRepository: LikeRepository,
     private val postRepository: PostRepository,
-    private val redisUtil: RedisUtil,
+    private val redisUtil: RedisUtil
 ) {
     @Transactional
     fun createLike(postId: Long, createdBy: String): Long {
@@ -39,7 +39,6 @@ class LikeService(
     }
 
     fun countLike(postId: Long): Long {
-
         redisUtil.getCount(redisUtil.getLikeCountKey(postId))?.let {
             return it.toLong()
         }

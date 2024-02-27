@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional
 class PostService(
     private val postRepository: PostRepository,
     private val likeService: LikeService,
-    private val tagRepository: TagRepository,
+    private val tagRepository: TagRepository
 ) {
     /**
      * 게시글 생성

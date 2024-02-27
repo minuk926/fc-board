@@ -35,13 +35,13 @@ interface TagRepository : JpaRepository<Tag, Long>, CustomTagRepository {
 }
 
 interface CustomTagRepository {
-    fun findByPage(pageRequest: Pageable, tagName: String): Page<Tag>
+    fun findByPage(pageable: Pageable, tagName: String): Page<Tag>
 }
 
 class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(Tag::class.java) {
-    override fun findByPage(pageable: Pageable, tagName: String): Page<Tag> {
+    override fun findByPage(pagable: Pageable, tagName: String): Page<Tag> {
         val orders = mutableListOf<OrderSpecifier<*>>()
-        pageable.sort.forEach { sort ->
+        pagable.sort.forEach { sort ->
             val pathBuilder: PathBuilder<Post> = PathBuilder(QPost.post.type, QPost.post.metadata)
             orders.add(
                 OrderSpecifier(
@@ -58,11 +58,11 @@ class CustomTagRepositoryImpl : CustomTagRepository, QuerydslRepositorySupport(T
             .join(tag.post, post).fetchJoin()
             .where(tag.name.eq(tagName))
             .orderBy(*orders.toTypedArray())
-            .offset(pageable.offset)
-            .limit(pageable.pageSize.toLong())
+            .offset(pagable.offset)
+            .limit(pagable.pageSize.toLong())
             .fetchResults()
             .let {
-                PageImpl(it.results, pageable, it.total)
+                PageImpl(it.results, pagable, it.total)
             }
     }
 }
