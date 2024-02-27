@@ -23,6 +23,7 @@ data class PostResponseListDto(
     val title: String,
     val content: String? = null,
     val firstTag: String? = null,
+    val likeCount: Long = 0,
     val createdBy: String,
     val createdAt: String
 )
@@ -32,12 +33,16 @@ data class PostResponseListDto(
  *
  * @return PostResponseDto
  */
-fun Post.toPostResponseListDto() =
+fun Post.toPostResponseListDto(countLike: (Long) -> (Long)) =
     PostResponseListDto(
         id = id,
         title = title,
         content = content,
         firstTag = tags.firstOrNull()?.name,
+        likeCount = countLike(id),
         createdBy = createdBy,
         createdAt = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
     )
+
+//fun Page<Post>.toPostResponseListDto(countLike: (Long) -> Long) =
+//    PageImpl(content.map { it.toPostResponseListDto(countLike) }, pageable, totalElements)

@@ -20,8 +20,8 @@ import jakarta.persistence.*
 @Table(name = "likes")
 class Like(
     post: Post,
-    creeatedBy: String
-) : BaseEntity(creeatedBy) {
+    createdBy: String
+) : BaseEntity(createdBy) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L

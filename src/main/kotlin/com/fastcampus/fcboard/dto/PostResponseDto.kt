@@ -24,6 +24,7 @@ data class PostResponseDto(
     val content: String? = null,
     val comments: List<CommentResponseDto> = emptyList(),
     val tags: List<String> = emptyList(),
+    val likeCount: Long = 0,
     val createdBy: String,
     val createdAt: String
 )
@@ -33,13 +34,14 @@ data class PostResponseDto(
  *
  * @return PostResponseDto
  */
-fun Post.toPostResponseDto() =
+fun Post.toPostResponseDto(likeCount: Long = 0) =
     PostResponseDto(
         id = id,
         title = title,
         content = content,
         comments = comments.map { it.toCommentResponseDto() },
         tags = tags.map { it.name },
+        likeCount = likeCount,
         createdBy = createdBy,
         createdAt = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
     )

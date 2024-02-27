@@ -17,4 +17,6 @@ import org.springframework.data.jpa.repository.JpaRepository
  *
  * </pre>
  */
-interface LikeRepository : JpaRepository<Like, Long>
+interface LikeRepository : JpaRepository<Like, Long> {
+    fun countByPostId(postId: Long): Long
+}

@@ -29,7 +29,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 @Service
 class PostService(
-    private val postRepository: PostRepository
+    private val postRepository: PostRepository,
+    private val likeService: LikeService
 ) {
     /**
      * 게시글 생성
@@ -54,7 +55,7 @@ class PostService(
     ): PostResponseDto {
         val post = findPost(id)
         post.update(postRequestDto)
-        return postRepository.save(post).toPostResponseDto()
+        return postRepository.save(post).toPostResponseDto(likeService.countLike(id))
     }
 
     /**
@@ -83,7 +84,7 @@ class PostService(
      */
     fun getPost(id: Long): PostResponseDto {
         val post = findPost(id)
-        return post.toPostResponseDto()
+        return post.toPostResponseDto(likeService.countLike(id))
     }
 
     /**
@@ -95,7 +96,8 @@ class PostService(
     fun getPosts(
         pageable: Pageable,
         postSearchDto: PostSearchDto
-    ): Page<PostResponseListDto> = postRepository.findByPage(pageable, postSearchDto).map(Post::toPostResponseListDto)
+    ): Page<PostResponseListDto> =
+        postRepository.findByPage(pageable, postSearchDto).map { it.toPostResponseListDto(likeService::countLike) }
 
     private fun findPost(id: Long): Post = postRepository.findByIdOrNull(id) ?: throw PostNotFoundException()
 }
