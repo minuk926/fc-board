@@ -53,7 +53,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:2.0.2")
     //testImplementation("org.testcontainers:junit-jupiter:1.19.3")
-    //testImplementation("org.testcontainers:testcontainers:1.19.3")
+    //testImplementation("com.redis.testcontainers:testcontainers-redis-junit-jupiter:1.4.6")
     //-----------------------------------------------------------------------
 
     // p6spy ----------------------------------------------------------------
@@ -89,9 +89,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     jvmArgs = listOf("-Xshare:off")
-    useJUnitPlatform(
-
-    )
+    useJUnitPlatform()
 }
 
 // jar 생성시 plain jar와 일반 jar가 생성
