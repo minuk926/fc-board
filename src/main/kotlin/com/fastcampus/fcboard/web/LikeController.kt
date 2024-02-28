@@ -29,4 +29,9 @@ class LikeController(
     fun createLike(@PathVariable postId: Long, createdBy: String): Long {
         return likeService.createLike(postId, createdBy)
     }
+
+    @PostMapping("/posts/{postId}/likes2")
+    fun createLike2(@PathVariable postId: Long, createdBy: String) {
+        likeService.createEventLike(postId, createdBy)
+    }
 }

@@ -1,10 +1,12 @@
 package com.fastcampus.fcboard.service
 
 import com.fastcampus.fcboard.domain.Like
+import com.fastcampus.fcboard.dto.LikeEventDto
 import com.fastcampus.fcboard.exception.PostNotFoundException
 import com.fastcampus.fcboard.repository.LikeRepository
 import com.fastcampus.fcboard.repository.PostRepository
 import com.fastcampus.util.RedisUtil
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -29,13 +31,18 @@ import org.springframework.transaction.annotation.Transactional
 class LikeService(
     private val likeRepository: LikeRepository,
     private val postRepository: PostRepository,
-    private val redisUtil: RedisUtil
+    private val redisUtil: RedisUtil,
+    private val applicationEventPublisher: ApplicationEventPublisher
 ) {
     @Transactional
     fun createLike(postId: Long, createdBy: String): Long {
         val post = findPost(postId)
         redisUtil.increment(redisUtil.getLikeCountKey(postId))
         return likeRepository.save(Like(post, createdBy)).id
+    }
+
+    fun createEventLike(postId: Long, createdBy: String) {
+        applicationEventPublisher.publishEvent(LikeEventDto(postId, createdBy))
     }
 
     fun countLike(postId: Long): Long {
