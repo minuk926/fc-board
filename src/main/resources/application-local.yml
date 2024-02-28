@@ -10,7 +10,7 @@ spring:
     type: redis
     redis:
       host: localhost
-      port: 6379
+      port: 7379
 
   #    url: jdbc:h2:mem:test
   #    username: sa

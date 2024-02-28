@@ -90,7 +90,7 @@ class CommentControllerAssuredTest {
             .then()
             .log().all()
             .statusCode(HttpStatus.OK.value())
-            .body("id", org.hamcrest.Matchers.equalTo(postResponseDto.id.toInt()))
+            .body("id", org.hamcrest.Matchers.equalTo(commentResponseDto.id.toInt()))
             .body("content", org.hamcrest.Matchers.equalTo("변경된 댓글 내용"))
             .body("createdBy", org.hamcrest.Matchers.equalTo("댓글 작성자"))
     }

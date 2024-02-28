@@ -12,11 +12,15 @@ spring:
       hibernate:
         default_batch_fetch_size: 10
 
+  # testContainer 사용시 반드시 password를 설정해야 함
+  # testContainer 사용시 redis test container에서 host와 port re-mapping이 필요함
+  # RedisTestContainers.java 참조
   cache:
     type: redis
     redis:
       host: localhost
-      port: 16379
+      port: 6379
+      password: password
 
 
 

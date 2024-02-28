@@ -28,12 +28,28 @@ class RedisConfig {
     @Value("\${spring.cache.redis.host}")
     lateinit var redisHost: String
 
+    @Value("\${spring.cache.redis.password:password}")
+    lateinit var password: String
+
     @Value("\${spring.cache.redis.port}")
     lateinit var redisPort: String
 
+    /**
+     * RedisConnectionFactory Bean 등록
+     *
+     * testContainer 사용시 반드시 password를 설정이 필요하여 추가
+     * RedisTestContainers.java 참조
+     *
+     * @return LettuceConnectionFactory
+     */
     @Bean
     fun redisConnectionFactory(): LettuceConnectionFactory {
-        return LettuceConnectionFactory(RedisStandaloneConfiguration(redisHost, redisPort.toInt()))
+        RedisStandaloneConfiguration().run {
+            hostName = redisHost
+            port = redisPort.toInt()
+            password = password
+            return LettuceConnectionFactory(this)
+        }
     }
 
     @Bean
